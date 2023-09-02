@@ -2,9 +2,9 @@
 #include <thread>
 
 #include <asio/io_context.hpp>
+#include <server/consumer.hpp>
 
 #include "book_registry.hpp"
-#include "consumer.hpp"
 
 int main() {
 

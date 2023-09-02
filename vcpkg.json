@@ -1,6 +1,7 @@
 {
+  "name": "exchange",
   "dependencies": [
     "asio",
-    "pthreads",
+    "pthreads"
   ]
 }
