@@ -13,16 +13,5 @@ project(
 find_package(asio CONFIG REQUIRED)
 find_package(Threads REQUIRED)
 
-add_library(server server/src/consumer.cpp)
-target_include_directories(server PUBLIC server/include)
-target_link_libraries(server PRIVATE asio::asio)
-add_library(exchange::server ALIAS server)
-
-add_executable(meng meng/src/main.cpp)
-target_include_directories(meng PRIVATE meng/include)
-target_link_libraries(
-  meng
-  PRIVATE
-  asio::asio
-  Threads::Threads
-  server)
+add_subdirectory(server)
+add_subdirectory(meng)
