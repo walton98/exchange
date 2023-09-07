@@ -19,7 +19,7 @@ int main() {
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
 
-  meng::consumer cons{ioc};
+  meng::consumer cons{ioc, 30001, "224.1.1.1"};
   cons.start();
 
   work.reset();
