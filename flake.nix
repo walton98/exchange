@@ -32,6 +32,8 @@
           buildInputs = [
             pkgs.protobuf3_21
             pkgs.clang-tools
+            pkgs.asio
+            pkgs.cmake
             python3
           ];
         };

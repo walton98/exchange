@@ -10,7 +10,6 @@ project(
   1.0
   LANGUAGES CXX C)
 
-find_package(asio CONFIG REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(Threads REQUIRED)
 
