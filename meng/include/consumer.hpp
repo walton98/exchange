@@ -13,7 +13,7 @@ class consumer : public server::consumer<consumer> {
   friend server::consumer<consumer>;
   using server::consumer<consumer>::consumer;
 
-  void handle_message(std::string data);
+  void handle_message(const std::string &data);
 };
 
 } // namespace meng

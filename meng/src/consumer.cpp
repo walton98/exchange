@@ -2,7 +2,7 @@
 
 namespace meng {
 
-void consumer::handle_message(std::string data) {
+void consumer::handle_message(const std::string &data) {
   meng_proto::Book book;
   if (!book.ParseFromString(data)) {
     std::cout << "could not parse message" << std::endl;

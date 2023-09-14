@@ -31,6 +31,7 @@
           '';
           buildInputs = [
             pkgs.protobuf3_21
+            pkgs.clang-tools
             python3
           ];
         };

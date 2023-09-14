@@ -1,3 +1,4 @@
+#include <exception>
 #include <iostream>
 #include <thread>
 
@@ -6,22 +7,29 @@
 #include "book_registry.hpp"
 #include "consumer.hpp"
 
-int main() {
-
-  std::cout << "started" << std::endl;
-  meng::book_registry books{};
-  auto result = books.create_book(3);
-  std::cout << "creating book: " << result << std::endl;
-  result = books.create_book(3);
-  std::cout << "creating book: " << result << std::endl;
+void run() {
 
   asio::io_context ioc;
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
 
-  meng::consumer cons{ioc, 30001, "224.1.1.1"};
+  constexpr int multicast_port{30001};
+  std::string multicast_host{"224.1.1.1"};
+  meng::consumer cons{ioc, multicast_port, multicast_host};
+
+  meng::book_registry books{};
+  books.create_book(3);
+
   cons.start();
 
   work.reset();
   asio_thread.join();
+}
+
+int main() {
+  try {
+    run();
+  } catch (std::exception eptr) {
+    std::cout << eptr.what() << std::endl;
+  }
 }
