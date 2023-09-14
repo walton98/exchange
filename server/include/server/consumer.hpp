@@ -13,6 +13,7 @@
 #include <asio/ip/multicast.hpp>
 #include <asio/ip/udp.hpp>
 #include <asio/redirect_error.hpp>
+#include <asio/use_awaitable.hpp>
 
 namespace server {
 

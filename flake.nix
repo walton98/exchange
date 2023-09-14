@@ -26,11 +26,14 @@
             }
 
             link_compile_commands() {
+              rm compile_commands.json
               ln -s `pwd`/build/compile_commands.json `pwd`/compile_commands.json
             }
           '';
           buildInputs = [
             pkgs.protobuf3_21
+            # TODO: add llvmPackages overlay
+            pkgs.clang_16
             pkgs.clang-tools
             pkgs.asio
             pkgs.cmake

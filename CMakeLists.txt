@@ -3,6 +3,14 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_C_COMPILER clang)
+set(CMAKE_CXX_COMPILER clang++)
+
+# ASIO currently doesn't detect coroutine support
+# since it only checks for the existence of the
+# removed <experimental/coroutine> header.
+# https://github.com/chriskohlhoff/asio/pull/1145
+add_compile_definitions(ASIO_HAS_CO_AWAIT ON)
 
 project(
   exchange
