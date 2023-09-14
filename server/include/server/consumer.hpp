@@ -16,8 +16,7 @@
 
 namespace server {
 
-template <class Derived>
-class consumer {
+template <class Derived> class consumer {
   /**
    * UDP multicast reciever.
    * Users must implement `void handle_message(char data[])`.
@@ -44,7 +43,7 @@ class consumer {
         std::cout << "error processing message: " << ec.message() << std::endl;
         continue;
       }
-      static_cast<Derived*>(this)->handle_message(data);
+      static_cast<Derived *>(this)->handle_message(data);
     }
     std::cout << "shutting down" << std::endl;
     socket_.close();
@@ -57,26 +56,29 @@ class consumer {
     try {
       std::rethrow_exception(eptr);
     } catch (std::exception &e) {
-      std::cout << e.what() << std::endl;;
+      std::cout << e.what() << std::endl;
+      ;
     }
   }
 
 public:
-  consumer(asio::io_context &ioc, asio::ip::port_type port, std::string multicast_address)
+  consumer(asio::io_context &ioc, asio::ip::port_type port,
+           std::string multicast_address)
       : ioc_{ioc}, ep_{asio::ip::udp::v4(), port}, socket_{ioc},
-        multicast_address_{asio::ip::make_address(multicast_address)}, shutdown_{false} {}
+        multicast_address_{asio::ip::make_address(multicast_address)},
+        shutdown_{false} {}
   void start() {
     asio::co_spawn(
-      ioc_,
-      [&]() {
-        // start accepting new connections
-        return accept_coro();
-      },
-      [&](std::exception_ptr eptr) {
-        if (eptr) {
-          return accept_error(eptr);
-        }
-      });
+        ioc_,
+        [&]() {
+          // start accepting new connections
+          return accept_coro();
+        },
+        [&](std::exception_ptr eptr) {
+          if (eptr) {
+            return accept_error(eptr);
+          }
+        });
   }
 };
 

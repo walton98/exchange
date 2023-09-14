@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package meng;
+package meng_proto;
 
 message Book {
   optional int64 id = 1;

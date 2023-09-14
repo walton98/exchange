@@ -44,20 +44,20 @@ struct TableStruct_meng_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_meng_2eproto;
-namespace meng {
+namespace meng_proto {
 class Book;
 struct BookDefaultTypeInternal;
 extern BookDefaultTypeInternal _Book_default_instance_;
-}  // namespace meng
+}  // namespace meng_proto
 PROTOBUF_NAMESPACE_OPEN
-template<> ::meng::Book* Arena::CreateMaybeMessage<::meng::Book>(Arena*);
+template<> ::meng_proto::Book* Arena::CreateMaybeMessage<::meng_proto::Book>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
-namespace meng {
+namespace meng_proto {
 
 // ===================================================================
 
 class Book final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:meng.Book) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:meng_proto.Book) */ {
  public:
   inline Book() : Book(nullptr) {}
   ~Book() override;
@@ -160,7 +160,7 @@ class Book final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "meng.Book";
+    return "meng_proto.Book";
   }
   protected:
   explicit Book(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -192,7 +192,7 @@ class Book final :
   void _internal_set_id(int64_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:meng.Book)
+  // @@protoc_insertion_point(class_scope:meng_proto.Book)
  private:
   class _Internal;
 
@@ -234,7 +234,7 @@ inline int64_t Book::_internal_id() const {
   return _impl_.id_;
 }
 inline int64_t Book::id() const {
-  // @@protoc_insertion_point(field_get:meng.Book.id)
+  // @@protoc_insertion_point(field_get:meng_proto.Book.id)
   return _internal_id();
 }
 inline void Book::_internal_set_id(int64_t value) {
@@ -243,7 +243,7 @@ inline void Book::_internal_set_id(int64_t value) {
 }
 inline void Book::set_id(int64_t value) {
   _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:meng.Book.id)
+  // @@protoc_insertion_point(field_set:meng_proto.Book.id)
 }
 
 #ifdef __GNUC__
@@ -252,7 +252,7 @@ inline void Book::set_id(int64_t value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace meng
+}  // namespace meng_proto
 
 // @@protoc_insertion_point(global_scope)
 

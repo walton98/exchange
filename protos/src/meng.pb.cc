@@ -20,7 +20,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
-namespace meng {
+namespace meng_proto {
 PROTOBUF_CONSTEXPR Book::Book(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
@@ -35,36 +35,36 @@ struct BookDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BookDefaultTypeInternal _Book_default_instance_;
-}  // namespace meng
+}  // namespace meng_proto
 static ::_pb::Metadata file_level_metadata_meng_2eproto[1];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_meng_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_meng_2eproto = nullptr;
 
 const uint32_t TableStruct_meng_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::meng::Book, _impl_._has_bits_),
-  PROTOBUF_FIELD_OFFSET(::meng::Book, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::meng_proto::Book, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::meng_proto::Book, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::meng::Book, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::meng_proto::Book, _impl_.id_),
   0,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 7, -1, sizeof(::meng::Book)},
+  { 0, 7, -1, sizeof(::meng_proto::Book)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::meng::_Book_default_instance_._instance,
+  &::meng_proto::_Book_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_meng_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\nmeng.proto\022\004meng\"\036\n\004Book\022\017\n\002id\030\001 \001(\003H\000"
-  "\210\001\001B\005\n\003_idb\006proto3"
+  "\n\nmeng.proto\022\nmeng_proto\"\036\n\004Book\022\017\n\002id\030\001"
+  " \001(\003H\000\210\001\001B\005\n\003_idb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_meng_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_meng_2eproto = {
-    false, false, 58, descriptor_table_protodef_meng_2eproto,
+    false, false, 64, descriptor_table_protodef_meng_2eproto,
     "meng.proto",
     &descriptor_table_meng_2eproto_once, nullptr, 0, 1,
     schemas, file_default_instances, TableStruct_meng_2eproto::offsets,
@@ -77,7 +77,7 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_meng_2ep
 
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_meng_2eproto(&descriptor_table_meng_2eproto);
-namespace meng {
+namespace meng_proto {
 
 // ===================================================================
 
@@ -93,7 +93,7 @@ Book::Book(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:meng.Book)
+  // @@protoc_insertion_point(arena_constructor:meng_proto.Book)
 }
 Book::Book(const Book& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -105,7 +105,7 @@ Book::Book(const Book& from)
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _this->_impl_.id_ = from._impl_.id_;
-  // @@protoc_insertion_point(copy_constructor:meng.Book)
+  // @@protoc_insertion_point(copy_constructor:meng_proto.Book)
 }
 
 inline void Book::SharedCtor(
@@ -120,7 +120,7 @@ inline void Book::SharedCtor(
 }
 
 Book::~Book() {
-  // @@protoc_insertion_point(destructor:meng.Book)
+  // @@protoc_insertion_point(destructor:meng_proto.Book)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -137,7 +137,7 @@ void Book::SetCachedSize(int size) const {
 }
 
 void Book::Clear() {
-// @@protoc_insertion_point(message_clear_start:meng.Book)
+// @@protoc_insertion_point(message_clear_start:meng_proto.Book)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -189,7 +189,7 @@ failure:
 
 uint8_t* Book::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:meng.Book)
+  // @@protoc_insertion_point(serialize_to_array_start:meng_proto.Book)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -203,12 +203,12 @@ uint8_t* Book::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:meng.Book)
+  // @@protoc_insertion_point(serialize_to_array_end:meng_proto.Book)
   return target;
 }
 
 size_t Book::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:meng.Book)
+// @@protoc_insertion_point(message_byte_size_start:meng_proto.Book)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -234,7 +234,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Book::GetClassData() const { r
 void Book::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<Book*>(&to_msg);
   auto& from = static_cast<const Book&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:meng.Book)
+  // @@protoc_insertion_point(class_specific_merge_from_start:meng_proto.Book)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -246,7 +246,7 @@ void Book::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_
 }
 
 void Book::CopyFrom(const Book& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:meng.Book)
+// @@protoc_insertion_point(class_specific_copy_from_start:meng_proto.Book)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -270,11 +270,11 @@ void Book::InternalSwap(Book* other) {
 }
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace meng
+}  // namespace meng_proto
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::meng::Book*
-Arena::CreateMaybeMessage< ::meng::Book >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::meng::Book >(arena);
+template<> PROTOBUF_NOINLINE ::meng_proto::Book*
+Arena::CreateMaybeMessage< ::meng_proto::Book >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::meng_proto::Book >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
