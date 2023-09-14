@@ -2,6 +2,11 @@
   "name": "exchange",
   "dependencies": [
     "asio",
+    "protobuf",
     "pthreads"
+  ],
+  "builtin-baseline": "4a600e9fea71bd7872080cbb716797e04d30e6d3",
+  "overrides": [
+    { "name": "protobuf", "version": "3.21.12" }
   ]
 }

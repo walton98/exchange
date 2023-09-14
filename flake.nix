@@ -12,8 +12,13 @@
 
         shell = pkgs.mkShell rec {
           name = "exchange";
+          shellHook = ''
+            generate_protos() {
+              protoc --proto_path=protos/defs --cpp_out=protos/src protos/defs/meng.proto
+            }
+          '';
           buildInputs = with pkgs; [
-            protobuf
+            protobuf3_21
           ];
         };
       in {
