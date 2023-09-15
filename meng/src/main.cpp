@@ -6,6 +6,7 @@
 
 #include "book_registry.hpp"
 #include "consumer.hpp"
+#include "engine.hpp"
 
 void run() {
 
@@ -17,10 +18,9 @@ void run() {
   std::string multicast_host{"224.1.1.1"};
   meng::consumer cons{ioc, multicast_port, multicast_host};
 
-  meng::book_registry books{};
-  books.create_book(3);
-
   cons.start();
+
+  meng::engine engine {};
 
   work.reset();
   asio_thread.join();
