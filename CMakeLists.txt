@@ -18,6 +18,13 @@ project(
   1.0
   LANGUAGES CXX C)
 
+find_program(CMAKE_CXX_CPPCHECK NAMES cppcheck REQUIRED)
+list(
+  APPEND CMAKE_CXX_CPPCHECK
+  "--suppressions-list=${CMAKE_SOURCE_DIR}/.suppressions"
+  "--error-exitcode=1"
+)
+
 find_package(Protobuf REQUIRED)
 find_package(Threads REQUIRED)
 

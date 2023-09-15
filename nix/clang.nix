@@ -1,9 +1,8 @@
 final: prev:
-{
-  llvm = prev.llvm_14;
-  llvmPackages = prev.llvmPackages_14;
+rec {
+  llvm = prev.llvm_15;
+  llvmPackages = prev.llvmPackages_15;
   clangStdenv = llvmPackages.libcxxStdenv;
   clang-tools = prev.clang-tools.override { inherit llvmPackages; };
-  # clang = llvmPackages.
-  # lldb = llvmPackages.lldb;
+  lldb = llvmPackages.lldb;
 }

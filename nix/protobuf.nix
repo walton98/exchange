@@ -1,4 +1,4 @@
 final: prev:
 {
-  protobuf = protobuf3_21;
+  protobuf = prev.protobuf3_21;
 }

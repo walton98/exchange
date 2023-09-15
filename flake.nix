@@ -8,7 +8,13 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            (import ./nix/clang.nix)
+            (import ./nix/protobuf.nix)
+          ];
+        };
 
         python3 = pkgs.python3.withPackages (p: with p; [
           protobuf
@@ -30,13 +36,16 @@
               ln -s `pwd`/build/compile_commands.json `pwd`/compile_commands.json
             }
           '';
-          buildInputs = [
-            pkgs.protobuf3_21
-            # TODO: add llvmPackages overlay
-            pkgs.clang_16
-            pkgs.clang-tools
-            pkgs.asio
-            pkgs.cmake
+          buildInputs = with pkgs; [
+            protobuf3_21
+            clang
+            lldb
+            clang-tools
+            asio
+            cmake
+            cppcheck
+            # include-what-you-use
+          ] ++ [
             python3
           ];
         };
