@@ -37,15 +37,24 @@
             }
           '';
           buildInputs = with pkgs; [
+            # C++ libraries
+            asio
             protobuf3_21
+
+            # Build tools
             clang
+            cmake
+
+            # Linting
             lldb
             clang-tools
-            asio
-            cmake
             cppcheck
             # include-what-you-use
+
+            # Testing
+            catch2_3
           ] ++ [
+            # Test client
             python3
           ];
         };

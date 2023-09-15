@@ -25,6 +25,7 @@ list(
   "--error-exitcode=1"
 )
 
+find_package(Catch2 3 REQUIRED)
 find_package(Protobuf REQUIRED)
 find_package(Threads REQUIRED)
 
