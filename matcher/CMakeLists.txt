@@ -18,3 +18,4 @@ target_link_libraries(
   PRIVATE
   Catch2::Catch2WithMain
   matcher_lib)
+catch_discover_tests(matcher_test)
