@@ -8,6 +8,8 @@
 #include <memory>
 #include <thread>
 
+#include <iostream>
+
 namespace meng {
 
 template <class T, int Size> class ring_buffer {
@@ -30,6 +32,7 @@ private:
 class cursor {
 public:
   using pos_type = int64_t;
+  static_assert(std::atomic<pos_type>::is_always_lock_free);
 
   cursor() : pos_{} {}
 
@@ -40,7 +43,7 @@ public:
     while (true) {
       auto current_pos = pos();
       if (current_pos > required_pos) {
-        return current_pos;
+        return current_pos - 1;
       }
       std::this_thread::sleep_for(std::chrono::nanoseconds(1));
     }
@@ -54,36 +57,40 @@ private:
   std::atomic<pos_type> pos_;
 };
 
+template <class RingBuf>
 class producer {
 public:
-  template <class RingBuf>
-  producer(std::shared_ptr<cursor> cons_cursor,
-           std::shared_ptr<cursor> prod_cursor, RingBuf &buf)
-      : size_{buf.size()}, current_{}, end_{buf.size()},
+  producer(RingBuf &buf, std::shared_ptr<cursor> cons_cursor,
+           std::shared_ptr<cursor> prod_cursor)
+      : buf_{buf}, current_{}, end_{0},
         cursor_{std::move(prod_cursor)}, following_{std::move(cons_cursor)} {}
 
   void claim(int64_t n) {
     // wait until we won't overwrite data that the
     // consumer has not read yet
-    auto required_position = current_ + n - size_;
+    auto required_position = current_ + n - buf_.size();
+    std::cout << "producer end: " << end_ << std::endl;
+    std::cout << "required pos: " << required_position << std::endl;
     if (end_ > required_position) {
       return;
     }
     end_ = following_->wait_for_pos(required_position);
+    std::cout << "producer end after wait: " << end_ << std::endl;
   }
 
-  template <class T, int Size>
-  void produce_one(ring_buffer<T, Size> &buf, T val) {
+  void produce_one(typename RingBuf::value_type val) {
     claim(1);
-    buf[current_] = std::move(val);
+    buf_[current_] = std::move(val);
     ++current_;
   }
 
-  void commit() { cursor_->move_to(current_ + 1); }
+  // note that batch size before commit must be less
+  // than the buffer size.
+  // TODO: add assertion for this
+  void commit() { cursor_->move_to(current_); }
 
 private:
-  // size of ring buffer
-  int size_;
+  RingBuf &buf_;
   // local copy of cursor which we increment until committing
   int64_t current_;
   // store the last known follower position so that we
@@ -93,43 +100,66 @@ private:
   std::shared_ptr<cursor> following_;
 };
 
-class consumer {
+// no end to buffer
+class faux_end {};
+
+template <class RingBuf>
+class batch_iterator {
 public:
-  template <class RingBuf>
-  consumer(std::shared_ptr<cursor> cons_cursor,
-           std::shared_ptr<cursor> prod_cursor, RingBuf &buf)
-      : size_{buf.size()}, current_{}, end_{}, cursor_{std::move(cons_cursor)},
-        following_{std::move(prod_cursor)} {}
-
-  void claim(int64_t n) {
-    // wait until we won't overwrite data that the
-    // consumer has not read yet
-    auto required_pos = current_ + n;
-    if (end_ > required_pos) {
-      return;
-    }
-    end_ = following_->wait_for_pos(required_pos);
+  // TODO: assert buf_size > max_batch_size
+  batch_iterator(RingBuf &buf, std::shared_ptr<cursor> cons_curs,
+                 std::shared_ptr<cursor> prod_curs, int max_batch_size)
+      : buf_{buf}, cons_curs_{std::move(cons_curs)}, prod_curs_{std::move(prod_curs)},
+        max_batch_size_{max_batch_size}, current_{0}, batch_end_{0} {
+    wait_for_batch();
   }
 
-  template <class RingBuf> auto consume_one(RingBuf &buf) {
-    claim(1);
-    auto result = buf[current_];
+  auto operator*() const {
+    return buf_[current_];
+  }
+
+  void operator++() {
     ++current_;
-    return result;
+    if (current_ > batch_end_) {
+      commit_batch();
+      wait_for_batch();
+    }
   }
 
-  void commit() { cursor_->move_to(current_ + 1); }
+  bool operator==(const faux_end &) const noexcept { return false; }
+  
+private:
+  RingBuf &buf_;
+  std::shared_ptr<cursor> cons_curs_;
+  std::shared_ptr<cursor> prod_curs_;
+  int max_batch_size_;
+  cursor::pos_type current_;
+  cursor::pos_type batch_end_;
+
+  void wait_for_batch() {
+    batch_end_ = prod_curs_->wait_for_pos(current_);
+    std::cout << "consumer end: " << batch_end_ << std::endl;
+  }
+
+  void commit_batch() { cons_curs_->move_to(batch_end_); }
+};
+
+template <class RingBuf>
+class batch_iterate {
+public:
+  batch_iterate(RingBuf &buf, std::shared_ptr<cursor> cons_curs,
+                std::shared_ptr<cursor> prod_curs, int max_batch_size) 
+      : buf_{buf}, cons_curs_{std::move(cons_curs)}, prod_curs_{std::move(prod_curs)},
+        max_batch_size_{max_batch_size} {}
+
+  batch_iterator<RingBuf> begin() noexcept { return {buf_, cons_curs_, prod_curs_, max_batch_size_}; };
+  faux_end end() noexcept { return {}; };
 
 private:
-  // size of ring buffer
-  int size_;
-  // local copy of cursor which we increment until committing
-  int64_t current_;
-  // store the last known follower position so that we
-  // don't have to query it as often
-  int64_t end_;
-  std::shared_ptr<cursor> cursor_;
-  std::shared_ptr<cursor> following_;
+  RingBuf &buf_;
+  std::shared_ptr<cursor> cons_curs_;
+  std::shared_ptr<cursor> prod_curs_;
+  int max_batch_size_;
 };
 
 } // namespace meng
