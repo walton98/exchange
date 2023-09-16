@@ -13,6 +13,6 @@ private:
   meng::book_registry books;
 };
 
-}  // namespace meng
+} // namespace meng
 
 #endif

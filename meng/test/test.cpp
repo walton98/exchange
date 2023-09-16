@@ -27,7 +27,8 @@ TEST_CASE("Batch iterator") {
     for (auto val : meng::batch_iterate(buf, cursors.cons_cursor, batch_size)) {
       REQUIRE(val == i);
       ++i;
-      if (val == num_items - 1) return;
+      if (val == num_items - 1)
+        return;
     }
   });
 

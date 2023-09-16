@@ -1,4 +1,4 @@
-add_library(meng_lib src/consumer.cpp)
+add_library(meng_lib src/engine.cpp)
 target_include_directories(meng_lib PUBLIC include)
 target_link_libraries(
   meng_lib
