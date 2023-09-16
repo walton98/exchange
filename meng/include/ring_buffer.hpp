@@ -34,7 +34,15 @@ public:
   using pos_type = int64_t;
   static_assert(std::atomic<pos_type>::is_always_lock_free);
 
-  cursor() : pos_{} {}
+  cursor() : pos_{0} {}
+
+  void follow(std::shared_ptr<cursor> following) {
+    following_ = std::move(following);
+  }
+
+  void unfollow() { following_ = nullptr; }
+
+  std::shared_ptr<cursor> following() const noexcept { return following_; }
 
   pos_type pos() const noexcept { return pos_.load(std::memory_order_acquire); }
 
@@ -54,28 +62,40 @@ public:
   }
 
 private:
+  std::shared_ptr<cursor> following_;
   std::atomic<pos_type> pos_;
 };
 
-template <class RingBuf>
-class producer {
+struct cursor_pair {
+  std::shared_ptr<cursor> prod_cursor;
+  std::shared_ptr<cursor> cons_cursor;
+
+  cursor_pair()
+      : prod_cursor{std::make_shared<meng::cursor>()},
+        cons_cursor{std::make_shared<meng::cursor>()} {
+    prod_cursor->follow(cons_cursor);
+    cons_cursor->follow(prod_cursor);
+  }
+
+  void unlink() {
+    prod_cursor->unfollow();
+    cons_cursor->unfollow();
+  }
+};
+
+template <class RingBuf> class producer {
 public:
-  producer(RingBuf &buf, std::shared_ptr<cursor> cons_cursor,
-           std::shared_ptr<cursor> prod_cursor)
-      : buf_{buf}, current_{}, end_{0},
-        cursor_{std::move(prod_cursor)}, following_{std::move(cons_cursor)} {}
+  producer(RingBuf &buf, std::shared_ptr<cursor> prod_cursor)
+      : buf_{buf}, current_{}, end_{0}, cursor_{std::move(prod_cursor)} {}
 
   void claim(int64_t n) {
     // wait until we won't overwrite data that the
     // consumer has not read yet
-    auto required_position = current_ + n - buf_.size();
-    std::cout << "producer end: " << end_ << std::endl;
-    std::cout << "required pos: " << required_position << std::endl;
+    auto required_position = current_ + n - buf_.size() - 1;
     if (end_ > required_position) {
       return;
     }
-    end_ = following_->wait_for_pos(required_position);
-    std::cout << "producer end after wait: " << end_ << std::endl;
+    end_ = cursor_->following()->wait_for_pos(required_position);
   }
 
   void produce_one(typename RingBuf::value_type val) {
@@ -97,26 +117,22 @@ private:
   // don't have to query it as often
   int64_t end_;
   std::shared_ptr<cursor> cursor_;
-  std::shared_ptr<cursor> following_;
 };
 
 // no end to buffer
 class faux_end {};
 
-template <class RingBuf>
-class batch_iterator {
+template <class RingBuf> class batch_iterator {
 public:
   // TODO: assert buf_size > max_batch_size
   batch_iterator(RingBuf &buf, std::shared_ptr<cursor> cons_curs,
-                 std::shared_ptr<cursor> prod_curs, int max_batch_size)
-      : buf_{buf}, cons_curs_{std::move(cons_curs)}, prod_curs_{std::move(prod_curs)},
+                 int max_batch_size)
+      : buf_{buf}, curs_{std::move(cons_curs)},
         max_batch_size_{max_batch_size}, current_{0}, batch_end_{0} {
     wait_for_batch();
   }
 
-  auto operator*() const {
-    return buf_[current_];
-  }
+  auto operator*() const { return buf_[current_]; }
 
   void operator++() {
     ++current_;
@@ -127,38 +143,36 @@ public:
   }
 
   bool operator==(const faux_end &) const noexcept { return false; }
-  
+
 private:
   RingBuf &buf_;
-  std::shared_ptr<cursor> cons_curs_;
-  std::shared_ptr<cursor> prod_curs_;
+  std::shared_ptr<cursor> curs_;
   int max_batch_size_;
   cursor::pos_type current_;
   cursor::pos_type batch_end_;
 
   void wait_for_batch() {
-    batch_end_ = prod_curs_->wait_for_pos(current_);
-    std::cout << "consumer end: " << batch_end_ << std::endl;
+    batch_end_ = curs_->following()->wait_for_pos(current_);
   }
 
-  void commit_batch() { cons_curs_->move_to(batch_end_); }
+  void commit_batch() { curs_->move_to(batch_end_); }
 };
 
-template <class RingBuf>
-class batch_iterate {
+template <class RingBuf> class batch_iterate {
 public:
   batch_iterate(RingBuf &buf, std::shared_ptr<cursor> cons_curs,
-                std::shared_ptr<cursor> prod_curs, int max_batch_size) 
-      : buf_{buf}, cons_curs_{std::move(cons_curs)}, prod_curs_{std::move(prod_curs)},
-        max_batch_size_{max_batch_size} {}
+                int max_batch_size)
+      : buf_{buf}, curs_{std::move(cons_curs)}, max_batch_size_{
+                                                    max_batch_size} {}
 
-  batch_iterator<RingBuf> begin() noexcept { return {buf_, cons_curs_, prod_curs_, max_batch_size_}; };
+  batch_iterator<RingBuf> begin() noexcept {
+    return {buf_, curs_, max_batch_size_};
+  };
   faux_end end() noexcept { return {}; };
 
 private:
   RingBuf &buf_;
-  std::shared_ptr<cursor> cons_curs_;
-  std::shared_ptr<cursor> prod_curs_;
+  std::shared_ptr<cursor> curs_;
   int max_batch_size_;
 };
 
