@@ -1,0 +1,26 @@
+name: "Build"
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: cachix/install-nix-action@v22
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Fetch Nix Dependencies
+      run: nix develop
+
+    - name: Configure CMake
+      run: nix develop --command cmake -B build
+
+    - name: Build
+      run: nix develop --command cmake --build build
+
+    - name: Test
+      run: nix develop --command ctest --test-dir build
