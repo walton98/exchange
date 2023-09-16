@@ -8,9 +8,9 @@ TEST_CASE("Batch iterator") {
   const auto buf_size = 1024;
   const auto batch_size = 32;
   const auto num_items = 1'000'000;
-  meng::ring_buffer<int, buf_size> buf;
-  meng::cursor_pair cursors{};
-  meng::producer prod{buf, cursors.prod_cursor};
+  matcher::ring_buffer<int, buf_size> buf;
+  matcher::cursor_pair cursors{};
+  matcher::producer prod{buf, cursors.prod_cursor};
 
   auto thread1 = std::thread([&]() {
     for (int i = 0; i < num_items; i++) {
@@ -24,7 +24,8 @@ TEST_CASE("Batch iterator") {
 
   auto thread2 = std::thread([&]() {
     auto i = 0;
-    for (auto val : meng::batch_iterate(buf, cursors.cons_cursor, batch_size)) {
+    for (auto val :
+         matcher::batch_iterate(buf, cursors.cons_cursor, batch_size)) {
       REQUIRE(val == i);
       ++i;
       if (val == num_items - 1)

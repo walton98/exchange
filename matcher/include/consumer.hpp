@@ -1,15 +1,15 @@
-#ifndef MENG_CONSUMER_HPP
-#define MENG_CONSUMER_HPP
+#ifndef MATCHER_CONSUMER_HPP
+#define MATCHER_CONSUMER_HPP
 
 #include <iostream>
 #include <string>
 
-#include <meng.pb.h>
+#include <matcher.pb.h>
 #include <server/consumer.hpp>
 
 #include "ring_buffer.hpp"
 
-namespace meng {
+namespace matcher {
 
 template <class RingBuf>
 class consumer : public server::consumer<consumer<RingBuf>> {
@@ -21,7 +21,7 @@ public:
       : server::consumer<consumer>(ioc, port, multicast_address), prod_{prod} {}
 
   void handle_message(const std::string &data) {
-    meng_proto::Book book;
+    matcher_proto::Book book;
     if (!book.ParseFromString(data)) {
       std::cout << "could not parse message" << std::endl;
       return;
@@ -35,6 +35,6 @@ private:
   producer<RingBuf> prod_;
 };
 
-} // namespace meng
+} // namespace matcher
 
-#endif // MENG_CONSUMER_HPP
+#endif // MATCHER_CONSUMER_HPP

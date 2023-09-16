@@ -1,11 +1,11 @@
-#ifndef MENG_BOOK_REGISTRY_HPP
-#define MENG_BOOK_REGISTRY_HPP
+#ifndef MATCHER_BOOK_REGISTRY_HPP
+#define MATCHER_BOOK_REGISTRY_HPP
 
 #include <unordered_map>
 
 #include "book.hpp"
 
-namespace meng {
+namespace matcher {
 
 class book_registry {
   std::unordered_map<book::book_id, book> books_;
@@ -17,6 +17,6 @@ public:
   }
 };
 
-} // namespace meng
+} // namespace matcher
 
-#endif // MENG_BOOK_REGISTRY_HPP
+#endif // MATCHER_BOOK_REGISTRY_HPP

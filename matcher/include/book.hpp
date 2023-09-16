@@ -1,12 +1,12 @@
-#ifndef MENG_BOOK_HPP
-#define MENG_BOOK_HPP
+#ifndef MATCHER_BOOK_HPP
+#define MATCHER_BOOK_HPP
 
 #include <cstdint>
 #include <vector>
 
 #include "order.hpp"
 
-namespace meng {
+namespace matcher {
 
 class book {
 public:
@@ -18,6 +18,6 @@ private:
   std::vector<order> orders_;
 };
 
-} // namespace meng
+} // namespace matcher
 
-#endif // MENG_BOOK_HPP
+#endif // MATCHER_BOOK_HPP

@@ -1,5 +1,5 @@
-#ifndef MENG_TYPES_HPP
-#define MENG_TYPES_HPP
+#ifndef MATCHER_TYPES_HPP
+#define MATCHER_TYPES_HPP
 
 #include <cstdint>
 
@@ -11,4 +11,4 @@ using quantity = uint64_t;
 
 } // namespace types
 
-#endif // MENG_TYPES_HPP
+#endif // MATCHER_TYPES_HPP

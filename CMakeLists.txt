@@ -31,4 +31,4 @@ find_package(Threads REQUIRED)
 
 add_subdirectory(server)
 add_subdirectory(protos)
-add_subdirectory(meng)
+add_subdirectory(matcher)

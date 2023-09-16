@@ -1,4 +1,4 @@
-add_library(protos src/meng.pb.cc)
+add_library(protos src/matcher.pb.cc)
 set_target_properties(protos PROPERTIES LINKER_LANGUAGE CXX)
 target_include_directories(protos PUBLIC src)
 target_link_libraries(protos PRIVATE protobuf::libprotobuf)

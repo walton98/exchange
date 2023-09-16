@@ -1,5 +1,5 @@
-#ifndef MENG_RING_BUFFER_HPP
-#define MENG_RING_BUFFER_HPP
+#ifndef MATCHER_RING_BUFFER_HPP
+#define MATCHER_RING_BUFFER_HPP
 
 #include <array>
 #include <atomic>
@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-namespace meng {
+namespace matcher {
 
 template <class T, int Size> class ring_buffer {
 public:
@@ -71,8 +71,8 @@ struct cursor_pair {
   std::shared_ptr<cursor> cons_cursor;
 
   cursor_pair()
-      : prod_cursor{std::make_shared<meng::cursor>()},
-        cons_cursor{std::make_shared<meng::cursor>()} {
+      : prod_cursor{std::make_shared<matcher::cursor>()},
+        cons_cursor{std::make_shared<matcher::cursor>()} {
     prod_cursor->follow(cons_cursor);
     cons_cursor->follow(prod_cursor);
   }
@@ -176,6 +176,6 @@ private:
   int max_batch_size_;
 };
 
-} // namespace meng
+} // namespace matcher
 
 #endif

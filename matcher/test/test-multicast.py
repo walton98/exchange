@@ -1,6 +1,6 @@
 import socket
 
-from meng_pb2 import Book
+from matcher_pb2 import Book
 
 MCAST_GRP = '224.1.1.1'
 MCAST_PORT = 30001
