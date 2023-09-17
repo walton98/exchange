@@ -1,13 +1,15 @@
 #include <iostream>
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/generators/catch_generators.hpp>
 
 #include "ring_buffer.hpp"
 
 TEST_CASE("Batch iterator") {
-  const auto buf_size = 1024;
-  const auto batch_size = 32;
-  const auto num_items = 1'000'000;
+  const auto buf_size = 512;
+  const auto batch_size = buf_size / GENERATE(1, 2, 4, 16);
+  const auto num_items = GENERATE(10, 1'000, 1'000'000);
+
   matcher::ring_buffer<int, buf_size> buf;
   matcher::cursor_pair cursors{};
   matcher::producer prod{buf, cursors.prod_cursor};
@@ -24,12 +26,15 @@ TEST_CASE("Batch iterator") {
 
   auto thread2 = std::thread([&]() {
     auto i = 0;
-    for (auto val :
-         matcher::batch_iterate(buf, cursors.cons_cursor, batch_size)) {
-      REQUIRE(val == i);
-      ++i;
-      if (val == num_items - 1)
-        return;
+    auto batch_iterator =
+        matcher::batch_iterate(buf, cursors.cons_cursor, batch_size);
+    for (auto batch : batch_iterator) {
+      for (auto val : batch) {
+        REQUIRE(val == i);
+        ++i;
+        if (val == num_items - 1)
+          return;
+      }
     }
   });
 
