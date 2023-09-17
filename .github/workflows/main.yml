@@ -16,6 +16,9 @@ jobs:
     - name: Fetch Nix Dependencies
       run: nix develop
 
+    - name: Check Formatting
+      run: nix develop --command ./tools/check-format.sh
+
     - name: Configure CMake
       run: nix develop --command cmake -B build
 
