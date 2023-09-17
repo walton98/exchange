@@ -26,8 +26,10 @@ void run() {
 
   matcher::engine engine{};
   auto handler_thread = std::thread([&]() {
-    for (auto val : matcher::batch_iterate(buf, cursors.cons_cursor, 32)) {
-      std::cout << "got id: " << val.id() << std::endl;
+    for (auto batch : matcher::batch_iterate(buf, cursors.cons_cursor, 32)) {
+      for (auto const &val : batch) {
+        std::cout << "got id: " << val.id() << std::endl;
+      }
     }
   });
 
