@@ -7,6 +7,7 @@
 #include "book_registry.hpp"
 #include "consumer.hpp"
 #include "engine.hpp"
+#include "handler.hpp"
 #include "ring_buffer.hpp"
 
 void run() {
@@ -15,7 +16,7 @@ void run() {
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
 
-  matcher::ring_buffer<matcher_proto::Book, 4096> buf;
+  matcher::ring_buffer<matcher_proto::Action, 4096> buf;
   matcher::cursor_pair cursors{};
   matcher::producer prod{buf, cursors.prod_cursor};
 
@@ -27,8 +28,8 @@ void run() {
   matcher::engine engine{};
   auto handler_thread = std::thread([&]() {
     for (auto batch : matcher::batch_iterate(buf, cursors.cons_cursor, 32)) {
-      for (auto const &val : batch) {
-        std::cout << "got id: " << val.id() << std::endl;
+      for (auto const &action : batch) {
+        matcher::handle_message(engine, action);
       }
     }
   });

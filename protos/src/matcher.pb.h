@@ -45,12 +45,24 @@ struct TableStruct_matcher_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_matcher_2eproto;
 namespace matcher_proto {
+class Action;
+struct ActionDefaultTypeInternal;
+extern ActionDefaultTypeInternal _Action_default_instance_;
 class Book;
 struct BookDefaultTypeInternal;
 extern BookDefaultTypeInternal _Book_default_instance_;
+class CreateBook;
+struct CreateBookDefaultTypeInternal;
+extern CreateBookDefaultTypeInternal _CreateBook_default_instance_;
+class CreateOrder;
+struct CreateOrderDefaultTypeInternal;
+extern CreateOrderDefaultTypeInternal _CreateOrder_default_instance_;
 }  // namespace matcher_proto
 PROTOBUF_NAMESPACE_OPEN
+template<> ::matcher_proto::Action* Arena::CreateMaybeMessage<::matcher_proto::Action>(Arena*);
 template<> ::matcher_proto::Book* Arena::CreateMaybeMessage<::matcher_proto::Book>(Arena*);
+template<> ::matcher_proto::CreateBook* Arena::CreateMaybeMessage<::matcher_proto::CreateBook>(Arena*);
+template<> ::matcher_proto::CreateOrder* Arena::CreateMaybeMessage<::matcher_proto::CreateOrder>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace matcher_proto {
 
@@ -179,17 +191,13 @@ class Book final :
   enum : int {
     kIdFieldNumber = 1,
   };
-  // optional int64 id = 1;
-  bool has_id() const;
-  private:
-  bool _internal_has_id() const;
-  public:
+  // uint64 id = 1;
   void clear_id();
-  int64_t id() const;
-  void set_id(int64_t value);
+  uint64_t id() const;
+  void set_id(uint64_t value);
   private:
-  int64_t _internal_id() const;
-  void _internal_set_id(int64_t value);
+  uint64_t _internal_id() const;
+  void _internal_set_id(uint64_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:matcher_proto.Book)
@@ -200,9 +208,509 @@ class Book final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    uint64_t id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-    int64_t id_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_matcher_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CreateBook final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:matcher_proto.CreateBook) */ {
+ public:
+  inline CreateBook() : CreateBook(nullptr) {}
+  ~CreateBook() override;
+  explicit PROTOBUF_CONSTEXPR CreateBook(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CreateBook(const CreateBook& from);
+  CreateBook(CreateBook&& from) noexcept
+    : CreateBook() {
+    *this = ::std::move(from);
+  }
+
+  inline CreateBook& operator=(const CreateBook& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CreateBook& operator=(CreateBook&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CreateBook& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CreateBook* internal_default_instance() {
+    return reinterpret_cast<const CreateBook*>(
+               &_CreateBook_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(CreateBook& a, CreateBook& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CreateBook* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CreateBook* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CreateBook* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CreateBook>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CreateBook& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CreateBook& from) {
+    CreateBook::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CreateBook* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "matcher_proto.CreateBook";
+  }
+  protected:
+  explicit CreateBook(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kBookFieldNumber = 1,
+  };
+  // .matcher_proto.Book book = 1;
+  bool has_book() const;
+  private:
+  bool _internal_has_book() const;
+  public:
+  void clear_book();
+  const ::matcher_proto::Book& book() const;
+  PROTOBUF_NODISCARD ::matcher_proto::Book* release_book();
+  ::matcher_proto::Book* mutable_book();
+  void set_allocated_book(::matcher_proto::Book* book);
+  private:
+  const ::matcher_proto::Book& _internal_book() const;
+  ::matcher_proto::Book* _internal_mutable_book();
+  public:
+  void unsafe_arena_set_allocated_book(
+      ::matcher_proto::Book* book);
+  ::matcher_proto::Book* unsafe_arena_release_book();
+
+  // @@protoc_insertion_point(class_scope:matcher_proto.CreateBook)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::matcher_proto::Book* book_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_matcher_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CreateOrder final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:matcher_proto.CreateOrder) */ {
+ public:
+  inline CreateOrder() : CreateOrder(nullptr) {}
+  ~CreateOrder() override;
+  explicit PROTOBUF_CONSTEXPR CreateOrder(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CreateOrder(const CreateOrder& from);
+  CreateOrder(CreateOrder&& from) noexcept
+    : CreateOrder() {
+    *this = ::std::move(from);
+  }
+
+  inline CreateOrder& operator=(const CreateOrder& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CreateOrder& operator=(CreateOrder&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CreateOrder& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CreateOrder* internal_default_instance() {
+    return reinterpret_cast<const CreateOrder*>(
+               &_CreateOrder_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(CreateOrder& a, CreateOrder& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CreateOrder* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CreateOrder* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CreateOrder* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CreateOrder>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CreateOrder& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CreateOrder& from) {
+    CreateOrder::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CreateOrder* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "matcher_proto.CreateOrder";
+  }
+  protected:
+  explicit CreateOrder(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kBookIdFieldNumber = 1,
+  };
+  // uint64 book_id = 1;
+  void clear_book_id();
+  uint64_t book_id() const;
+  void set_book_id(uint64_t value);
+  private:
+  uint64_t _internal_book_id() const;
+  void _internal_set_book_id(uint64_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:matcher_proto.CreateOrder)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t book_id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_matcher_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Action final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:matcher_proto.Action) */ {
+ public:
+  inline Action() : Action(nullptr) {}
+  ~Action() override;
+  explicit PROTOBUF_CONSTEXPR Action(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Action(const Action& from);
+  Action(Action&& from) noexcept
+    : Action() {
+    *this = ::std::move(from);
+  }
+
+  inline Action& operator=(const Action& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Action& operator=(Action&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Action& default_instance() {
+    return *internal_default_instance();
+  }
+  enum ActionCase {
+    kCreateBook = 1,
+    kCreateOrder = 2,
+    ACTION_NOT_SET = 0,
+  };
+
+  static inline const Action* internal_default_instance() {
+    return reinterpret_cast<const Action*>(
+               &_Action_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(Action& a, Action& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Action* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Action* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Action* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Action>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Action& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Action& from) {
+    Action::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Action* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "matcher_proto.Action";
+  }
+  protected:
+  explicit Action(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCreateBookFieldNumber = 1,
+    kCreateOrderFieldNumber = 2,
+  };
+  // .matcher_proto.CreateBook create_book = 1;
+  bool has_create_book() const;
+  private:
+  bool _internal_has_create_book() const;
+  public:
+  void clear_create_book();
+  const ::matcher_proto::CreateBook& create_book() const;
+  PROTOBUF_NODISCARD ::matcher_proto::CreateBook* release_create_book();
+  ::matcher_proto::CreateBook* mutable_create_book();
+  void set_allocated_create_book(::matcher_proto::CreateBook* create_book);
+  private:
+  const ::matcher_proto::CreateBook& _internal_create_book() const;
+  ::matcher_proto::CreateBook* _internal_mutable_create_book();
+  public:
+  void unsafe_arena_set_allocated_create_book(
+      ::matcher_proto::CreateBook* create_book);
+  ::matcher_proto::CreateBook* unsafe_arena_release_create_book();
+
+  // .matcher_proto.CreateOrder create_order = 2;
+  bool has_create_order() const;
+  private:
+  bool _internal_has_create_order() const;
+  public:
+  void clear_create_order();
+  const ::matcher_proto::CreateOrder& create_order() const;
+  PROTOBUF_NODISCARD ::matcher_proto::CreateOrder* release_create_order();
+  ::matcher_proto::CreateOrder* mutable_create_order();
+  void set_allocated_create_order(::matcher_proto::CreateOrder* create_order);
+  private:
+  const ::matcher_proto::CreateOrder& _internal_create_order() const;
+  ::matcher_proto::CreateOrder* _internal_mutable_create_order();
+  public:
+  void unsafe_arena_set_allocated_create_order(
+      ::matcher_proto::CreateOrder* create_order);
+  ::matcher_proto::CreateOrder* unsafe_arena_release_create_order();
+
+  void clear_action();
+  ActionCase action_case() const;
+  // @@protoc_insertion_point(class_scope:matcher_proto.Action)
+ private:
+  class _Internal;
+  void set_has_create_book();
+  void set_has_create_order();
+
+  inline bool has_action() const;
+  inline void clear_has_action();
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    union ActionUnion {
+      constexpr ActionUnion() : _constinit_{} {}
+        ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
+      ::matcher_proto::CreateBook* create_book_;
+      ::matcher_proto::CreateOrder* create_order_;
+    } action_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    uint32_t _oneof_case_[1];
+
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_matcher_2eproto;
@@ -218,37 +726,314 @@ class Book final :
 #endif  // __GNUC__
 // Book
 
-// optional int64 id = 1;
-inline bool Book::_internal_has_id() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool Book::has_id() const {
-  return _internal_has_id();
-}
+// uint64 id = 1;
 inline void Book::clear_id() {
-  _impl_.id_ = int64_t{0};
-  _impl_._has_bits_[0] &= ~0x00000001u;
+  _impl_.id_ = uint64_t{0u};
 }
-inline int64_t Book::_internal_id() const {
+inline uint64_t Book::_internal_id() const {
   return _impl_.id_;
 }
-inline int64_t Book::id() const {
+inline uint64_t Book::id() const {
   // @@protoc_insertion_point(field_get:matcher_proto.Book.id)
   return _internal_id();
 }
-inline void Book::_internal_set_id(int64_t value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
+inline void Book::_internal_set_id(uint64_t value) {
+  
   _impl_.id_ = value;
 }
-inline void Book::set_id(int64_t value) {
+inline void Book::set_id(uint64_t value) {
   _internal_set_id(value);
   // @@protoc_insertion_point(field_set:matcher_proto.Book.id)
 }
 
+// -------------------------------------------------------------------
+
+// CreateBook
+
+// .matcher_proto.Book book = 1;
+inline bool CreateBook::_internal_has_book() const {
+  return this != internal_default_instance() && _impl_.book_ != nullptr;
+}
+inline bool CreateBook::has_book() const {
+  return _internal_has_book();
+}
+inline void CreateBook::clear_book() {
+  if (GetArenaForAllocation() == nullptr && _impl_.book_ != nullptr) {
+    delete _impl_.book_;
+  }
+  _impl_.book_ = nullptr;
+}
+inline const ::matcher_proto::Book& CreateBook::_internal_book() const {
+  const ::matcher_proto::Book* p = _impl_.book_;
+  return p != nullptr ? *p : reinterpret_cast<const ::matcher_proto::Book&>(
+      ::matcher_proto::_Book_default_instance_);
+}
+inline const ::matcher_proto::Book& CreateBook::book() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.CreateBook.book)
+  return _internal_book();
+}
+inline void CreateBook::unsafe_arena_set_allocated_book(
+    ::matcher_proto::Book* book) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.book_);
+  }
+  _impl_.book_ = book;
+  if (book) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:matcher_proto.CreateBook.book)
+}
+inline ::matcher_proto::Book* CreateBook::release_book() {
+  
+  ::matcher_proto::Book* temp = _impl_.book_;
+  _impl_.book_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::matcher_proto::Book* CreateBook::unsafe_arena_release_book() {
+  // @@protoc_insertion_point(field_release:matcher_proto.CreateBook.book)
+  
+  ::matcher_proto::Book* temp = _impl_.book_;
+  _impl_.book_ = nullptr;
+  return temp;
+}
+inline ::matcher_proto::Book* CreateBook::_internal_mutable_book() {
+  
+  if (_impl_.book_ == nullptr) {
+    auto* p = CreateMaybeMessage<::matcher_proto::Book>(GetArenaForAllocation());
+    _impl_.book_ = p;
+  }
+  return _impl_.book_;
+}
+inline ::matcher_proto::Book* CreateBook::mutable_book() {
+  ::matcher_proto::Book* _msg = _internal_mutable_book();
+  // @@protoc_insertion_point(field_mutable:matcher_proto.CreateBook.book)
+  return _msg;
+}
+inline void CreateBook::set_allocated_book(::matcher_proto::Book* book) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.book_;
+  }
+  if (book) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(book);
+    if (message_arena != submessage_arena) {
+      book = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, book, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.book_ = book;
+  // @@protoc_insertion_point(field_set_allocated:matcher_proto.CreateBook.book)
+}
+
+// -------------------------------------------------------------------
+
+// CreateOrder
+
+// uint64 book_id = 1;
+inline void CreateOrder::clear_book_id() {
+  _impl_.book_id_ = uint64_t{0u};
+}
+inline uint64_t CreateOrder::_internal_book_id() const {
+  return _impl_.book_id_;
+}
+inline uint64_t CreateOrder::book_id() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.CreateOrder.book_id)
+  return _internal_book_id();
+}
+inline void CreateOrder::_internal_set_book_id(uint64_t value) {
+  
+  _impl_.book_id_ = value;
+}
+inline void CreateOrder::set_book_id(uint64_t value) {
+  _internal_set_book_id(value);
+  // @@protoc_insertion_point(field_set:matcher_proto.CreateOrder.book_id)
+}
+
+// -------------------------------------------------------------------
+
+// Action
+
+// .matcher_proto.CreateBook create_book = 1;
+inline bool Action::_internal_has_create_book() const {
+  return action_case() == kCreateBook;
+}
+inline bool Action::has_create_book() const {
+  return _internal_has_create_book();
+}
+inline void Action::set_has_create_book() {
+  _impl_._oneof_case_[0] = kCreateBook;
+}
+inline void Action::clear_create_book() {
+  if (_internal_has_create_book()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.action_.create_book_;
+    }
+    clear_has_action();
+  }
+}
+inline ::matcher_proto::CreateBook* Action::release_create_book() {
+  // @@protoc_insertion_point(field_release:matcher_proto.Action.create_book)
+  if (_internal_has_create_book()) {
+    clear_has_action();
+    ::matcher_proto::CreateBook* temp = _impl_.action_.create_book_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.action_.create_book_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::matcher_proto::CreateBook& Action::_internal_create_book() const {
+  return _internal_has_create_book()
+      ? *_impl_.action_.create_book_
+      : reinterpret_cast< ::matcher_proto::CreateBook&>(::matcher_proto::_CreateBook_default_instance_);
+}
+inline const ::matcher_proto::CreateBook& Action::create_book() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.Action.create_book)
+  return _internal_create_book();
+}
+inline ::matcher_proto::CreateBook* Action::unsafe_arena_release_create_book() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:matcher_proto.Action.create_book)
+  if (_internal_has_create_book()) {
+    clear_has_action();
+    ::matcher_proto::CreateBook* temp = _impl_.action_.create_book_;
+    _impl_.action_.create_book_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Action::unsafe_arena_set_allocated_create_book(::matcher_proto::CreateBook* create_book) {
+  clear_action();
+  if (create_book) {
+    set_has_create_book();
+    _impl_.action_.create_book_ = create_book;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:matcher_proto.Action.create_book)
+}
+inline ::matcher_proto::CreateBook* Action::_internal_mutable_create_book() {
+  if (!_internal_has_create_book()) {
+    clear_action();
+    set_has_create_book();
+    _impl_.action_.create_book_ = CreateMaybeMessage< ::matcher_proto::CreateBook >(GetArenaForAllocation());
+  }
+  return _impl_.action_.create_book_;
+}
+inline ::matcher_proto::CreateBook* Action::mutable_create_book() {
+  ::matcher_proto::CreateBook* _msg = _internal_mutable_create_book();
+  // @@protoc_insertion_point(field_mutable:matcher_proto.Action.create_book)
+  return _msg;
+}
+
+// .matcher_proto.CreateOrder create_order = 2;
+inline bool Action::_internal_has_create_order() const {
+  return action_case() == kCreateOrder;
+}
+inline bool Action::has_create_order() const {
+  return _internal_has_create_order();
+}
+inline void Action::set_has_create_order() {
+  _impl_._oneof_case_[0] = kCreateOrder;
+}
+inline void Action::clear_create_order() {
+  if (_internal_has_create_order()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.action_.create_order_;
+    }
+    clear_has_action();
+  }
+}
+inline ::matcher_proto::CreateOrder* Action::release_create_order() {
+  // @@protoc_insertion_point(field_release:matcher_proto.Action.create_order)
+  if (_internal_has_create_order()) {
+    clear_has_action();
+    ::matcher_proto::CreateOrder* temp = _impl_.action_.create_order_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.action_.create_order_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::matcher_proto::CreateOrder& Action::_internal_create_order() const {
+  return _internal_has_create_order()
+      ? *_impl_.action_.create_order_
+      : reinterpret_cast< ::matcher_proto::CreateOrder&>(::matcher_proto::_CreateOrder_default_instance_);
+}
+inline const ::matcher_proto::CreateOrder& Action::create_order() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.Action.create_order)
+  return _internal_create_order();
+}
+inline ::matcher_proto::CreateOrder* Action::unsafe_arena_release_create_order() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:matcher_proto.Action.create_order)
+  if (_internal_has_create_order()) {
+    clear_has_action();
+    ::matcher_proto::CreateOrder* temp = _impl_.action_.create_order_;
+    _impl_.action_.create_order_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Action::unsafe_arena_set_allocated_create_order(::matcher_proto::CreateOrder* create_order) {
+  clear_action();
+  if (create_order) {
+    set_has_create_order();
+    _impl_.action_.create_order_ = create_order;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:matcher_proto.Action.create_order)
+}
+inline ::matcher_proto::CreateOrder* Action::_internal_mutable_create_order() {
+  if (!_internal_has_create_order()) {
+    clear_action();
+    set_has_create_order();
+    _impl_.action_.create_order_ = CreateMaybeMessage< ::matcher_proto::CreateOrder >(GetArenaForAllocation());
+  }
+  return _impl_.action_.create_order_;
+}
+inline ::matcher_proto::CreateOrder* Action::mutable_create_order() {
+  ::matcher_proto::CreateOrder* _msg = _internal_mutable_create_order();
+  // @@protoc_insertion_point(field_mutable:matcher_proto.Action.create_order)
+  return _msg;
+}
+
+inline bool Action::has_action() const {
+  return action_case() != ACTION_NOT_SET;
+}
+inline void Action::clear_has_action() {
+  _impl_._oneof_case_[0] = ACTION_NOT_SET;
+}
+inline Action::ActionCase Action::action_case() const {
+  return Action::ActionCase(_impl_._oneof_case_[0]);
+}
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

@@ -12,7 +12,7 @@ class book_registry {
 
 public:
   bool create_book(book::book_id book_id) {
-    auto result = books_.insert({book_id, book{book_id}});
+    auto result = books_.emplace(book_id, book{book_id});
     return result.second;
   }
 };
