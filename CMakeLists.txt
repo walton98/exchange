@@ -26,6 +26,5 @@ find_package(Threads REQUIRED)
 include(CTest)
 include(Catch)
 
-add_subdirectory(server)
-add_subdirectory(protos)
+add_subdirectory(packages)
 add_subdirectory(matcher)
