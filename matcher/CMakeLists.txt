@@ -4,8 +4,9 @@ target_link_libraries(
   matcher_lib
   PUBLIC
   Threads::Threads
-  exchange::server
-  exchange::protos)
+  exchange::protos
+  exchange::ring_buffer
+  exchange::server)
 
 add_executable(matcher src/main.cpp)
 target_link_libraries(matcher PRIVATE matcher_lib)

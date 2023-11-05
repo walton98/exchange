@@ -7,7 +7,7 @@
 #include <matcher.pb.h>
 #include <server/consumer.hpp>
 
-#include "ring_buffer.hpp"
+#include <ring_buffer/ring_buffer.hpp>
 
 namespace matcher {
 
@@ -17,7 +17,7 @@ public:
   friend server::consumer<consumer>;
 
   consumer(asio::io_context &ioc, asio::ip::port_type port,
-           std::string &multicast_address, producer<RingBuf> prod)
+           std::string &multicast_address, ring_buffer::producer<RingBuf> prod)
       : server::consumer<consumer>(ioc, port, multicast_address), prod_{prod} {}
 
   void handle_message(const std::string &data) {
@@ -32,7 +32,7 @@ public:
   }
 
 private:
-  producer<RingBuf> prod_;
+  ring_buffer::producer<RingBuf> prod_;
 };
 
 } // namespace matcher

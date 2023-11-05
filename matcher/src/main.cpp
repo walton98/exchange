@@ -3,12 +3,12 @@
 #include <thread>
 
 #include <asio/io_context.hpp>
+#include <ring_buffer/ring_buffer.hpp>
 
 #include "book_registry.hpp"
 #include "consumer.hpp"
 #include "engine.hpp"
 #include "handler.hpp"
-#include "ring_buffer.hpp"
 
 void run() {
 
@@ -16,9 +16,9 @@ void run() {
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
 
-  matcher::ring_buffer<matcher_proto::Action, 4096> buf;
-  matcher::cursor_pair cursors{};
-  matcher::producer prod{buf, cursors.prod_cursor};
+  ring_buffer::ring_buffer<matcher_proto::Action, 4096> buf;
+  ring_buffer::cursor_pair cursors{};
+  ring_buffer::producer prod{buf, cursors.prod_cursor};
 
   constexpr int multicast_port{30001};
   std::string multicast_host{"224.1.1.1"};
@@ -27,7 +27,8 @@ void run() {
 
   matcher::engine engine{};
   auto handler_thread = std::thread([&]() {
-    for (auto batch : matcher::batch_iterate(buf, cursors.cons_cursor, 32)) {
+    for (auto batch :
+         ring_buffer::batch_iterate(buf, cursors.cons_cursor, 32)) {
       for (auto const &action : batch) {
         matcher::handle_message(engine, action);
       }
