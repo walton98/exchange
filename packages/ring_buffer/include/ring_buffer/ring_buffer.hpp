@@ -1,5 +1,5 @@
-#ifndef MATCHER_RING_BUFFER_HPP
-#define MATCHER_RING_BUFFER_HPP
+#ifndef RING_BUFFER_HPP
+#define RING_BUFFER_HPP
 
 #include <array>
 #include <atomic>
@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-namespace matcher {
+namespace ring_buffer {
 
 template <class T, uint16_t Size> class ring_buffer {
 public:
@@ -98,8 +98,8 @@ struct cursor_pair {
   std::shared_ptr<cursor> cons_cursor;
 
   cursor_pair()
-      : prod_cursor{std::make_shared<matcher::cursor>()},
-        cons_cursor{std::make_shared<matcher::cursor>()} {
+      : prod_cursor{std::make_shared<cursor>()},
+        cons_cursor{std::make_shared<cursor>()} {
     prod_cursor->follow(cons_cursor);
     cons_cursor->follow(prod_cursor);
   }
@@ -227,6 +227,6 @@ private:
   typename RingBuf::size_type max_batch_size_;
 };
 
-} // namespace matcher
+} // namespace ring_buffer
 
 #endif
