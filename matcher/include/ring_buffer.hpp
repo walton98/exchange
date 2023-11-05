@@ -208,8 +208,8 @@ template <class RingBuf> class batch_iterate {
 public:
   batch_iterate(RingBuf &buf, std::shared_ptr<cursor> cons_curs,
                 typename RingBuf::size_type max_batch_size)
-      : buf_{buf}, curs_{std::move(cons_curs)}, max_batch_size_{
-                                                    max_batch_size} {}
+      : buf_{buf}, curs_{std::move(cons_curs)},
+        max_batch_size_{max_batch_size} {}
 
   batch_iterator<RingBuf> begin() noexcept {
     return {buf_, curs_, max_batch_size_};

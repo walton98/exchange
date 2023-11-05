@@ -8,19 +8,30 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs {
+        vanillaNixpkgs = import nixpkgs {
           inherit system;
+        };
+
+        clangOverlay = (import ./nix/clang.nix){
+          inherit vanillaNixpkgs;
+        };
+
+        clangPkgs = import nixpkgs {
+          inherit system;
+          config = {
+            replaceStdenv = { pkgs }: pkgs.clangStdenv;
+          };
           overlays = [
-            (import ./nix/clang.nix)
             (import ./nix/protobuf.nix)
+            clangOverlay
           ];
         };
 
-        python3 = pkgs.python3.withPackages (p: with p; [
+        python3 = clangPkgs.python3.withPackages (p: with p; [
           protobuf
         ]);
 
-        shell = pkgs.mkShell rec {
+        shell = clangPkgs.mkShell rec {
           name = "exchange";
           shellHook = ''
             generate_protos() {
@@ -36,18 +47,20 @@
               ln -s `pwd`/build/compile_commands.json `pwd`/compile_commands.json
             }
           '';
-          buildInputs = with pkgs; [
+          # Prioritise clang-tools in PATH so that we use clangd from
+          # clang-tools. See https://github.com/NixOS/nixpkgs/pull/203434
+          nativeBuildInputs = [ clangPkgs.clang-tools ];
+          buildInputs = with clangPkgs; [
             # C++ libraries
             asio
             protobuf3_21
 
             # Build tools
-            clang
             cmake
+            # TODO: fix lldb build
+            # lldb
 
             # Linting
-            lldb
-            clang-tools
             cppcheck
             # include-what-you-use
 
@@ -60,6 +73,8 @@
         };
       in {
         devShells.default = shell;
+        # TODO: make an actual package to build project
+        packages.default = shell;
       }
     );
 }
