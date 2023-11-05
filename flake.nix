@@ -35,11 +35,11 @@
           name = "exchange";
           shellHook = ''
             generate_protos() {
-              protoc --proto_path=protos/defs --cpp_out=protos/src protos/defs/matcher.proto
+              protoc --proto_path=packages/protos/defs --cpp_out=packages/protos/src packages/protos/defs/matcher.proto
             }
 
             generate_test_protos() {
-              protoc --proto_path=protos/defs --python_out=matcher/test protos/defs/matcher.proto
+              protoc --proto_path=packages/protos/defs --python_out=matcher/test protos/defs/matcher.proto
             }
 
             link_compile_commands() {
