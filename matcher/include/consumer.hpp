@@ -21,13 +21,13 @@ public:
       : server::consumer<consumer>(ioc, port, multicast_address), prod_{prod} {}
 
   void handle_message(const std::string &data) {
-    matcher_proto::Book book;
-    if (!book.ParseFromString(data)) {
+    matcher_proto::Action action;
+    if (!action.ParseFromString(data)) {
       std::cout << "could not parse message" << std::endl;
       return;
     }
     // send to ring buffer
-    prod_.produce_one(book);
+    prod_.produce_one(action);
     prod_.commit();
   }
 
