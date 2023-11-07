@@ -1,4 +1,8 @@
-add_library(matcher_lib src/engine.cpp src/handler.cpp)
+add_library(
+  matcher_lib
+  src/book_registry.cpp
+  src/engine.cpp
+  src/handler.cpp)
 target_include_directories(matcher_lib PUBLIC include)
 target_link_libraries(
   matcher_lib
