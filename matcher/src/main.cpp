@@ -5,10 +5,11 @@
 #include <asio/io_context.hpp>
 #include <ring_buffer/ring_buffer.hpp>
 
+#include <server/consumer.hpp>
+
 #include "book_registry.hpp"
-#include "consumer.hpp"
 #include "engine.hpp"
-#include "handler.hpp"
+#include "request.hpp"
 
 void run() {
 
@@ -16,13 +17,15 @@ void run() {
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
 
-  ring_buffer::ring_buffer<matcher_proto::Action, 4096> buf;
+  matcher::RingBuf buf;
   ring_buffer::cursor_pair cursors{};
   ring_buffer::producer prod{buf, cursors.prod_cursor};
 
   constexpr int multicast_port{30001};
   std::string multicast_host{"224.1.1.1"};
-  matcher::consumer cons{ioc, multicast_port, multicast_host, prod};
+  auto request_handler = matcher::consumer{prod};
+  server::consumer cons{ioc, multicast_port, multicast_host,
+                        std::move(request_handler)};
   cons.start();
 
   matcher::engine engine{};
@@ -30,7 +33,10 @@ void run() {
     for (auto batch :
          ring_buffer::batch_iterate(buf, cursors.cons_cursor, 32)) {
       for (auto const &action : batch) {
-        matcher::handle_message(engine, action);
+        // TODO: use std::visit
+        if (auto cb = std::get_if<matcher::request::create_book>(&(*action))) {
+          std::cout << "test" << std::endl;
+        }
       }
     }
   });

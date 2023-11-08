@@ -17,7 +17,7 @@
 
 namespace server {
 
-template <class Derived> class consumer {
+template <typename F> class consumer {
   /**
    * UDP multicast reciever.
    * Users must implement `void handle_message(char data[])`.
@@ -26,6 +26,7 @@ template <class Derived> class consumer {
   asio::ip::udp::endpoint ep_;
   asio::ip::udp::socket socket_;
   asio::ip::address multicast_address_;
+  F f_;
   bool shutdown_;
   static constexpr int max_size_ = 1024;
 
@@ -45,7 +46,7 @@ template <class Derived> class consumer {
         std::cout << "error processing message: " << ec.message() << std::endl;
         continue;
       }
-      static_cast<Derived *>(this)->handle_message(std::string(data.data()));
+      std::invoke(f_, std::string(data.data()));
     }
     std::cout << "shutting down" << std::endl;
     socket_.close();
@@ -65,9 +66,9 @@ template <class Derived> class consumer {
 
 public:
   consumer(asio::io_context &ioc, asio::ip::port_type port,
-           std::string &multicast_address)
+           std::string &multicast_address, F &&f)
       : ioc_{ioc}, ep_{asio::ip::udp::v4(), port}, socket_{ioc},
-        multicast_address_{asio::ip::make_address(multicast_address)},
+        multicast_address_{asio::ip::make_address(multicast_address)}, f_{f},
         shutdown_{false} {}
 
   void start() {
