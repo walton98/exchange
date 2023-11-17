@@ -12,6 +12,10 @@ class book_registry {
 
 public:
   bool create_book(book::book_id book_id);
+
+  [[nodiscard]] constexpr auto &get_book(book::book_id book_id) {
+    return books_.at(book_id);
+  }
 };
 
 } // namespace matcher
