@@ -5,9 +5,9 @@
 #include <variant>
 
 #include <matcher.pb.h>
+#include <ring_buffer/ring_buffer.hpp>
 
-#include "engine.hpp"
-#include "ring_buffer/ring_buffer.hpp"
+#include "types.hpp"
 
 namespace matcher {
 
@@ -17,19 +17,26 @@ class create_book {
 public:
   create_book(const matcher_proto::CreateBook &cb) : id_{cb.book().id()} {}
 
+  [[nodiscard]] constexpr types::book_id id() const noexcept { return id_; }
+
 private:
   types::book_id id_;
+  std::string s_;
 };
 
 class create_order {
 public:
   create_order(const matcher_proto::CreateOrder &co) : book_id_{co.book_id()} {}
 
+  [[nodiscard]] constexpr types::book_id book_id() const noexcept {
+    return book_id_;
+  };
+
 private:
   types::book_id book_id_;
 };
 
-using request_t = std::optional<std::variant<create_book, create_order>>;
+using request_t = std::variant<std::monostate, create_book, create_order>;
 
 } // namespace request
 

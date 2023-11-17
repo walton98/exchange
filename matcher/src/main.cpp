@@ -30,13 +30,10 @@ void run() {
 
   matcher::engine engine{};
   auto handler_thread = std::thread([&]() {
-    for (auto batch :
+    for (const auto batch :
          ring_buffer::batch_iterate(buf, cursors.cons_cursor, 32)) {
-      for (auto const &action : batch) {
-        // TODO: use std::visit
-        if (auto cb = std::get_if<matcher::request::create_book>(&(*action))) {
-          std::cout << "test" << std::endl;
-        }
+      for (const auto &action : batch) {
+        auto result = std::visit(engine, action);
       }
     }
   });
