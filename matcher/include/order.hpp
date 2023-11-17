@@ -6,6 +6,7 @@
 namespace matcher {
 
 struct order {
+  types::order_id_t id;
   types::price px;
   types::quantity qty;
 };
