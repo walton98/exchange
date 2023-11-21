@@ -30,6 +30,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include "types.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_matcher_2eproto
@@ -57,12 +58,16 @@ extern CreateBookDefaultTypeInternal _CreateBook_default_instance_;
 class CreateOrder;
 struct CreateOrderDefaultTypeInternal;
 extern CreateOrderDefaultTypeInternal _CreateOrder_default_instance_;
+class Order;
+struct OrderDefaultTypeInternal;
+extern OrderDefaultTypeInternal _Order_default_instance_;
 }  // namespace matcher_proto
 PROTOBUF_NAMESPACE_OPEN
 template<> ::matcher_proto::Action* Arena::CreateMaybeMessage<::matcher_proto::Action>(Arena*);
 template<> ::matcher_proto::Book* Arena::CreateMaybeMessage<::matcher_proto::Book>(Arena*);
 template<> ::matcher_proto::CreateBook* Arena::CreateMaybeMessage<::matcher_proto::CreateBook>(Arena*);
 template<> ::matcher_proto::CreateOrder* Arena::CreateMaybeMessage<::matcher_proto::CreateOrder>(Arena*);
+template<> ::matcher_proto::Order* Arena::CreateMaybeMessage<::matcher_proto::Order>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace matcher_proto {
 
@@ -216,6 +221,187 @@ class Book final :
 };
 // -------------------------------------------------------------------
 
+class Order final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:matcher_proto.Order) */ {
+ public:
+  inline Order() : Order(nullptr) {}
+  ~Order() override;
+  explicit PROTOBUF_CONSTEXPR Order(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Order(const Order& from);
+  Order(Order&& from) noexcept
+    : Order() {
+    *this = ::std::move(from);
+  }
+
+  inline Order& operator=(const Order& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Order& operator=(Order&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Order& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Order* internal_default_instance() {
+    return reinterpret_cast<const Order*>(
+               &_Order_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(Order& a, Order& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Order* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Order* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Order* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Order>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Order& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Order& from) {
+    Order::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Order* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "matcher_proto.Order";
+  }
+  protected:
+  explicit Order(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+    kPriceFieldNumber = 2,
+    kQuantityFieldNumber = 3,
+    kSideFieldNumber = 4,
+  };
+  // uint64 id = 1;
+  void clear_id();
+  uint64_t id() const;
+  void set_id(uint64_t value);
+  private:
+  uint64_t _internal_id() const;
+  void _internal_set_id(uint64_t value);
+  public:
+
+  // uint64 price = 2;
+  void clear_price();
+  uint64_t price() const;
+  void set_price(uint64_t value);
+  private:
+  uint64_t _internal_price() const;
+  void _internal_set_price(uint64_t value);
+  public:
+
+  // uint64 quantity = 3;
+  void clear_quantity();
+  uint64_t quantity() const;
+  void set_quantity(uint64_t value);
+  private:
+  uint64_t _internal_quantity() const;
+  void _internal_set_quantity(uint64_t value);
+  public:
+
+  // .types_proto.Side side = 4;
+  void clear_side();
+  ::types_proto::Side side() const;
+  void set_side(::types_proto::Side value);
+  private:
+  ::types_proto::Side _internal_side() const;
+  void _internal_set_side(::types_proto::Side value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:matcher_proto.Order)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    uint64_t id_;
+    uint64_t price_;
+    uint64_t quantity_;
+    int side_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_matcher_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CreateBook final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:matcher_proto.CreateBook) */ {
  public:
@@ -264,7 +450,7 @@ class CreateBook final :
                &_CreateBook_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(CreateBook& a, CreateBook& b) {
     a.Swap(&b);
@@ -421,7 +607,7 @@ class CreateOrder final :
                &_CreateOrder_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(CreateOrder& a, CreateOrder& b) {
     a.Swap(&b);
@@ -494,8 +680,27 @@ class CreateOrder final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kOrderFieldNumber = 2,
     kBookIdFieldNumber = 1,
   };
+  // .matcher_proto.Order order = 2;
+  bool has_order() const;
+  private:
+  bool _internal_has_order() const;
+  public:
+  void clear_order();
+  const ::matcher_proto::Order& order() const;
+  PROTOBUF_NODISCARD ::matcher_proto::Order* release_order();
+  ::matcher_proto::Order* mutable_order();
+  void set_allocated_order(::matcher_proto::Order* order);
+  private:
+  const ::matcher_proto::Order& _internal_order() const;
+  ::matcher_proto::Order* _internal_mutable_order();
+  public:
+  void unsafe_arena_set_allocated_order(
+      ::matcher_proto::Order* order);
+  ::matcher_proto::Order* unsafe_arena_release_order();
+
   // uint64 book_id = 1;
   void clear_book_id();
   uint64_t book_id() const;
@@ -513,6 +718,7 @@ class CreateOrder final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::matcher_proto::Order* order_;
     uint64_t book_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -575,7 +781,7 @@ class Action final :
                &_Action_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(Action& a, Action& b) {
     a.Swap(&b);
@@ -748,6 +954,90 @@ inline void Book::set_id(uint64_t value) {
 
 // -------------------------------------------------------------------
 
+// Order
+
+// uint64 id = 1;
+inline void Order::clear_id() {
+  _impl_.id_ = uint64_t{0u};
+}
+inline uint64_t Order::_internal_id() const {
+  return _impl_.id_;
+}
+inline uint64_t Order::id() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.Order.id)
+  return _internal_id();
+}
+inline void Order::_internal_set_id(uint64_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void Order::set_id(uint64_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:matcher_proto.Order.id)
+}
+
+// uint64 price = 2;
+inline void Order::clear_price() {
+  _impl_.price_ = uint64_t{0u};
+}
+inline uint64_t Order::_internal_price() const {
+  return _impl_.price_;
+}
+inline uint64_t Order::price() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.Order.price)
+  return _internal_price();
+}
+inline void Order::_internal_set_price(uint64_t value) {
+  
+  _impl_.price_ = value;
+}
+inline void Order::set_price(uint64_t value) {
+  _internal_set_price(value);
+  // @@protoc_insertion_point(field_set:matcher_proto.Order.price)
+}
+
+// uint64 quantity = 3;
+inline void Order::clear_quantity() {
+  _impl_.quantity_ = uint64_t{0u};
+}
+inline uint64_t Order::_internal_quantity() const {
+  return _impl_.quantity_;
+}
+inline uint64_t Order::quantity() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.Order.quantity)
+  return _internal_quantity();
+}
+inline void Order::_internal_set_quantity(uint64_t value) {
+  
+  _impl_.quantity_ = value;
+}
+inline void Order::set_quantity(uint64_t value) {
+  _internal_set_quantity(value);
+  // @@protoc_insertion_point(field_set:matcher_proto.Order.quantity)
+}
+
+// .types_proto.Side side = 4;
+inline void Order::clear_side() {
+  _impl_.side_ = 0;
+}
+inline ::types_proto::Side Order::_internal_side() const {
+  return static_cast< ::types_proto::Side >(_impl_.side_);
+}
+inline ::types_proto::Side Order::side() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.Order.side)
+  return _internal_side();
+}
+inline void Order::_internal_set_side(::types_proto::Side value) {
+  
+  _impl_.side_ = value;
+}
+inline void Order::set_side(::types_proto::Side value) {
+  _internal_set_side(value);
+  // @@protoc_insertion_point(field_set:matcher_proto.Order.side)
+}
+
+// -------------------------------------------------------------------
+
 // CreateBook
 
 // .matcher_proto.Book book = 1;
@@ -862,6 +1152,96 @@ inline void CreateOrder::_internal_set_book_id(uint64_t value) {
 inline void CreateOrder::set_book_id(uint64_t value) {
   _internal_set_book_id(value);
   // @@protoc_insertion_point(field_set:matcher_proto.CreateOrder.book_id)
+}
+
+// .matcher_proto.Order order = 2;
+inline bool CreateOrder::_internal_has_order() const {
+  return this != internal_default_instance() && _impl_.order_ != nullptr;
+}
+inline bool CreateOrder::has_order() const {
+  return _internal_has_order();
+}
+inline void CreateOrder::clear_order() {
+  if (GetArenaForAllocation() == nullptr && _impl_.order_ != nullptr) {
+    delete _impl_.order_;
+  }
+  _impl_.order_ = nullptr;
+}
+inline const ::matcher_proto::Order& CreateOrder::_internal_order() const {
+  const ::matcher_proto::Order* p = _impl_.order_;
+  return p != nullptr ? *p : reinterpret_cast<const ::matcher_proto::Order&>(
+      ::matcher_proto::_Order_default_instance_);
+}
+inline const ::matcher_proto::Order& CreateOrder::order() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.CreateOrder.order)
+  return _internal_order();
+}
+inline void CreateOrder::unsafe_arena_set_allocated_order(
+    ::matcher_proto::Order* order) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.order_);
+  }
+  _impl_.order_ = order;
+  if (order) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:matcher_proto.CreateOrder.order)
+}
+inline ::matcher_proto::Order* CreateOrder::release_order() {
+  
+  ::matcher_proto::Order* temp = _impl_.order_;
+  _impl_.order_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::matcher_proto::Order* CreateOrder::unsafe_arena_release_order() {
+  // @@protoc_insertion_point(field_release:matcher_proto.CreateOrder.order)
+  
+  ::matcher_proto::Order* temp = _impl_.order_;
+  _impl_.order_ = nullptr;
+  return temp;
+}
+inline ::matcher_proto::Order* CreateOrder::_internal_mutable_order() {
+  
+  if (_impl_.order_ == nullptr) {
+    auto* p = CreateMaybeMessage<::matcher_proto::Order>(GetArenaForAllocation());
+    _impl_.order_ = p;
+  }
+  return _impl_.order_;
+}
+inline ::matcher_proto::Order* CreateOrder::mutable_order() {
+  ::matcher_proto::Order* _msg = _internal_mutable_order();
+  // @@protoc_insertion_point(field_mutable:matcher_proto.CreateOrder.order)
+  return _msg;
+}
+inline void CreateOrder::set_allocated_order(::matcher_proto::Order* order) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.order_;
+  }
+  if (order) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(order);
+    if (message_arena != submessage_arena) {
+      order = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, order, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.order_ = order;
+  // @@protoc_insertion_point(field_set_allocated:matcher_proto.CreateOrder.order)
 }
 
 // -------------------------------------------------------------------
@@ -1028,6 +1408,8 @@ inline Action::ActionCase Action::action_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

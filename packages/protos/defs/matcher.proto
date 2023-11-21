@@ -1,9 +1,18 @@
 syntax = "proto3";
 
+import "types.proto";
+
 package matcher_proto;
 
 message Book {
   uint64 id = 1;
+}
+
+message Order {
+  uint64 id = 1;
+  uint64 price = 2;
+  uint64 quantity = 3;
+  types_proto.Side side = 4;
 }
 
 message CreateBook {
@@ -12,6 +21,7 @@ message CreateBook {
 
 message CreateOrder {
   uint64 book_id = 1;
+  Order order = 2;
 }
 
 message Action {

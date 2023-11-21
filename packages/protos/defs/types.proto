@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package types_proto;
+
+enum Side {
+  SIDE_BUY = 0;
+  SIDE_SELL = 1;
+}
