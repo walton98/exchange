@@ -16,6 +16,13 @@ enum class side {
   sell,
 };
 
+struct order {
+  types::order_id_t id;
+  types::price px;
+  types::quantity qty;
+  types::side side;
+};
+
 } // namespace types
 
 #endif // MATCHER_TYPES_HPP

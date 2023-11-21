@@ -6,14 +6,15 @@
 #include <type_traits>
 #include <vector>
 
-#include "order.hpp"
 #include "types.hpp"
 
 namespace matcher {
 
+namespace {
+
 template <types::side S> class order_list {
 public:
-  void insert_order(order &&ord) {
+  void insert_order(types::order &&ord) {
     auto prev = find_location(ord);
     order_list_.insert_after(prev, ord);
   }
@@ -26,7 +27,7 @@ public:
   }
 
 private:
-  std::forward_list<order> order_list_;
+  std::forward_list<types::order> order_list_;
 
   [[nodiscard]] constexpr bool
   price_is_better(types::price lhs, types::price rhs) const noexcept {
@@ -40,12 +41,12 @@ private:
     }
   }
 
-  auto find_location(const order &ord) const {
+  auto find_location(const types::order &order) const {
     auto it = order_list_.before_begin();
     auto prev = it;
     ++it;
     while (true) {
-      if (it == order_list_.end() || price_is_better(ord.px, it->px)) {
+      if (it == order_list_.end() || price_is_better(order.px, it->px)) {
         return prev;
       }
       ++it;
@@ -53,6 +54,8 @@ private:
     }
   }
 };
+
+} // namespace
 
 class book {
 public:
@@ -77,14 +80,23 @@ public:
     }
   }
 
-  void insert_order(order &&ord) { buy_orders_.insert_order(std::move(ord)); }
+  void insert_order(types::order &&order) {
+    switch (order.side) {
+    case types::side::buy:
+      buy_orders_.insert_order(std::move(order));
+      break;
+    case types::side::sell:
+      sell_orders_.insert_order(std::move(order));
+      break;
+    }
+  }
 
 private:
   book_id id;
   order_list<types::side::buy> buy_orders_;
   order_list<types::side::sell> sell_orders_;
 
-  [[nodiscard]] auto find_location(const order &ord) const;
+  [[nodiscard]] auto find_location(const types::order &order) const;
 };
 
 } // namespace matcher

@@ -12,7 +12,7 @@ engine::operator()(const request::create_book &request) {
 std::expected<void, engine_error>
 engine::operator()(const request::create_order &request) {
   auto &book = books_.get_book(request.book_id());
-  book.insert_order(order{request.book_id()});
+  book.insert_order(types::order{});
   std::cout << "creating order" << std::endl;
   return {};
 }
