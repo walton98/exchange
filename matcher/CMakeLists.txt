@@ -16,7 +16,7 @@ add_executable(matcher src/main.cpp)
 target_link_libraries(matcher PRIVATE matcher_lib)
 add_executable(exchange::matcher ALIAS matcher)
 
-add_executable(matcher_test test/test.cpp)
+add_executable(matcher_test test/test_book.cpp)
 target_link_libraries(
   matcher_test
   PRIVATE
