@@ -29,30 +29,10 @@ public:
 private:
   std::forward_list<types::order> order_list_;
 
-  [[nodiscard]] constexpr bool
-  price_is_better(types::price lhs, types::price rhs) const noexcept {
-    switch (S) {
-    case types::side::buy:
-      return lhs > rhs;
-    case types::side::sell:
-      return lhs < rhs;
-    default:
-      __builtin_unreachable();
-    }
-  }
+  [[nodiscard]] constexpr bool price_is_better(types::price lhs,
+                                               types::price rhs) const noexcept;
 
-  auto find_location(const types::order &order) const {
-    auto it = order_list_.before_begin();
-    auto prev = it;
-    ++it;
-    while (true) {
-      if (it == order_list_.end() || price_is_better(order.px, it->px)) {
-        return prev;
-      }
-      ++it;
-      ++prev;
-    }
-  }
+  [[nodiscard]] auto find_location(const types::order &order) const;
 };
 
 } // namespace
@@ -80,23 +60,12 @@ public:
     }
   }
 
-  void insert_order(types::order &&order) {
-    switch (order.side) {
-    case types::side::buy:
-      buy_orders_.insert_order(std::move(order));
-      break;
-    case types::side::sell:
-      sell_orders_.insert_order(std::move(order));
-      break;
-    }
-  }
+  void insert_order(types::order &&order);
 
 private:
   book_id id;
   order_list<types::side::buy> buy_orders_;
   order_list<types::side::sell> sell_orders_;
-
-  [[nodiscard]] auto find_location(const types::order &order) const;
 };
 
 } // namespace matcher

@@ -1,5 +1,6 @@
 add_library(
   matcher_lib
+  src/book.cpp
   src/book_registry.cpp
   src/engine.cpp
   src/request.cpp)
