@@ -3,10 +3,10 @@
 
 #include <catch2/catch_test_macros.hpp>
 
-#include "book.hpp"
+#include "book/book.hpp"
 
 /// Return order_ids in book, in the order in which they appear.
-auto get_book_order_ids(matcher::book &book, types::side side) {
+auto get_book_order_ids(matcher::book::book &book, types::side side) {
   std::vector<types::order_id_t> ids{};
   for (auto order_it = book.begin(side); order_it != book.end(side);
        ++order_it) {
@@ -15,7 +15,8 @@ auto get_book_order_ids(matcher::book &book, types::side side) {
   return ids;
 }
 
-void insert_orders(matcher::book &book, std::vector<types::order> &orders) {
+void insert_orders(matcher::book::book &book,
+                   std::vector<types::order> &orders) {
   std::ranges::for_each(
       orders, [&](auto order) { book.insert_order(std::move(order)); });
 }
@@ -32,7 +33,7 @@ TEST_CASE("Insert buy orders") {
   };
   std::vector<types::order_id_t> expected_buy_ids{2, 1, 3, 4};
 
-  matcher::book book{1};
+  matcher::book::book book{1};
   insert_orders(book, orders);
 
   auto buy_ids = get_book_order_ids(book, types::side::buy);
@@ -51,7 +52,7 @@ TEST_CASE("Insert sell orders") {
   };
   std::vector<types::order_id_t> expected_ids{4, 1, 3, 2};
 
-  matcher::book book{1};
+  matcher::book::book book{1};
   insert_orders(book, orders);
 
   auto ids = get_book_order_ids(book, types::side::sell);
