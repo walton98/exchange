@@ -29,6 +29,7 @@
 
         python3 = clangPkgs.python3.withPackages (p: with p; [
           protobuf
+          pytest
         ]);
 
         shell = clangPkgs.mkShell rec {
