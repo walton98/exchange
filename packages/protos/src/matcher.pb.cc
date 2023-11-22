@@ -77,6 +77,17 @@ struct CreateOrderDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CreateOrderDefaultTypeInternal _CreateOrder_default_instance_;
+PROTOBUF_CONSTEXPR Snapshot::Snapshot(
+    ::_pbi::ConstantInitialized) {}
+struct SnapshotDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SnapshotDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SnapshotDefaultTypeInternal() {}
+  union {
+    Snapshot _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SnapshotDefaultTypeInternal _Snapshot_default_instance_;
 PROTOBUF_CONSTEXPR Action::Action(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.action_)*/{}
@@ -92,7 +103,7 @@ struct ActionDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ActionDefaultTypeInternal _Action_default_instance_;
 }  // namespace matcher_proto
-static ::_pb::Metadata file_level_metadata_matcher_2eproto[5];
+static ::_pb::Metadata file_level_metadata_matcher_2eproto[6];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_matcher_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_matcher_2eproto = nullptr;
 
@@ -130,11 +141,18 @@ const uint32_t TableStruct_matcher_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   PROTOBUF_FIELD_OFFSET(::matcher_proto::CreateOrder, _impl_.book_id_),
   PROTOBUF_FIELD_OFFSET(::matcher_proto::CreateOrder, _impl_.order_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::matcher_proto::Snapshot, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::matcher_proto::Action, _internal_metadata_),
   ~0u,  // no _extensions_
   PROTOBUF_FIELD_OFFSET(::matcher_proto::Action, _impl_._oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
+  ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   ::_pbi::kInvalidFieldOffsetTag,
   PROTOBUF_FIELD_OFFSET(::matcher_proto::Action, _impl_.action_),
@@ -144,7 +162,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 7, -1, -1, sizeof(::matcher_proto::Order)},
   { 17, -1, -1, sizeof(::matcher_proto::CreateBook)},
   { 24, -1, -1, sizeof(::matcher_proto::CreateOrder)},
-  { 32, -1, -1, sizeof(::matcher_proto::Action)},
+  { 32, -1, -1, sizeof(::matcher_proto::Snapshot)},
+  { 38, -1, -1, sizeof(::matcher_proto::Action)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -152,6 +171,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::matcher_proto::_Order_default_instance_._instance,
   &::matcher_proto::_CreateBook_default_instance_._instance,
   &::matcher_proto::_CreateOrder_default_instance_._instance,
+  &::matcher_proto::_Snapshot_default_instance_._instance,
   &::matcher_proto::_Action_default_instance_._instance,
 };
 
@@ -162,19 +182,21 @@ const char descriptor_table_protodef_matcher_2eproto[] PROTOBUF_SECTION_VARIABLE
   "\004side\030\004 \001(\0162\021.types_proto.Side\"/\n\nCreate"
   "Book\022!\n\004book\030\001 \001(\0132\023.matcher_proto.Book\""
   "C\n\013CreateOrder\022\017\n\007book_id\030\001 \001(\004\022#\n\005order"
-  "\030\002 \001(\0132\024.matcher_proto.Order\"x\n\006Action\0220"
-  "\n\013create_book\030\001 \001(\0132\031.matcher_proto.Crea"
-  "teBookH\000\0222\n\014create_order\030\002 \001(\0132\032.matcher"
-  "_proto.CreateOrderH\000B\010\n\006actionb\006proto3"
+  "\030\002 \001(\0132\024.matcher_proto.Order\"\n\n\010Snapshot"
+  "\"\245\001\n\006Action\0220\n\013create_book\030\001 \001(\0132\031.match"
+  "er_proto.CreateBookH\000\0222\n\014create_order\030\002 "
+  "\001(\0132\032.matcher_proto.CreateOrderH\000\022+\n\010sna"
+  "pshot\030\003 \001(\0132\027.matcher_proto.SnapshotH\000B\010"
+  "\n\006actionb\006proto3"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_matcher_2eproto_deps[1] = {
   &::descriptor_table_types_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_matcher_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_matcher_2eproto = {
-    false, false, 398, descriptor_table_protodef_matcher_2eproto,
+    false, false, 456, descriptor_table_protodef_matcher_2eproto,
     "matcher.proto",
-    &descriptor_table_matcher_2eproto_once, descriptor_table_matcher_2eproto_deps, 1, 5,
+    &descriptor_table_matcher_2eproto_once, descriptor_table_matcher_2eproto_deps, 1, 6,
     schemas, file_default_instances, TableStruct_matcher_2eproto::offsets,
     file_level_metadata_matcher_2eproto, file_level_enum_descriptors_matcher_2eproto,
     file_level_service_descriptors_matcher_2eproto,
@@ -1046,10 +1068,51 @@ void CreateOrder::InternalSwap(CreateOrder* other) {
 
 // ===================================================================
 
+class Snapshot::_Internal {
+ public:
+};
+
+Snapshot::Snapshot(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:matcher_proto.Snapshot)
+}
+Snapshot::Snapshot(const Snapshot& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  Snapshot* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:matcher_proto.Snapshot)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Snapshot::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Snapshot::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata Snapshot::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_matcher_2eproto_getter, &descriptor_table_matcher_2eproto_once,
+      file_level_metadata_matcher_2eproto[4]);
+}
+
+// ===================================================================
+
 class Action::_Internal {
  public:
   static const ::matcher_proto::CreateBook& create_book(const Action* msg);
   static const ::matcher_proto::CreateOrder& create_order(const Action* msg);
+  static const ::matcher_proto::Snapshot& snapshot(const Action* msg);
 };
 
 const ::matcher_proto::CreateBook&
@@ -1059,6 +1122,10 @@ Action::_Internal::create_book(const Action* msg) {
 const ::matcher_proto::CreateOrder&
 Action::_Internal::create_order(const Action* msg) {
   return *msg->_impl_.action_.create_order_;
+}
+const ::matcher_proto::Snapshot&
+Action::_Internal::snapshot(const Action* msg) {
+  return *msg->_impl_.action_.snapshot_;
 }
 void Action::set_allocated_create_book(::matcher_proto::CreateBook* create_book) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
@@ -1090,6 +1157,21 @@ void Action::set_allocated_create_order(::matcher_proto::CreateOrder* create_ord
   }
   // @@protoc_insertion_point(field_set_allocated:matcher_proto.Action.create_order)
 }
+void Action::set_allocated_snapshot(::matcher_proto::Snapshot* snapshot) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  clear_action();
+  if (snapshot) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(snapshot);
+    if (message_arena != submessage_arena) {
+      snapshot = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, snapshot, submessage_arena);
+    }
+    set_has_snapshot();
+    _impl_.action_.snapshot_ = snapshot;
+  }
+  // @@protoc_insertion_point(field_set_allocated:matcher_proto.Action.snapshot)
+}
 Action::Action(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -1115,6 +1197,11 @@ Action::Action(const Action& from)
     case kCreateOrder: {
       _this->_internal_mutable_create_order()->::matcher_proto::CreateOrder::MergeFrom(
           from._internal_create_order());
+      break;
+    }
+    case kSnapshot: {
+      _this->_internal_mutable_snapshot()->::matcher_proto::Snapshot::MergeFrom(
+          from._internal_snapshot());
       break;
     }
     case ACTION_NOT_SET: {
@@ -1171,6 +1258,12 @@ void Action::clear_action() {
       }
       break;
     }
+    case kSnapshot: {
+      if (GetArenaForAllocation() == nullptr) {
+        delete _impl_.action_.snapshot_;
+      }
+      break;
+    }
     case ACTION_NOT_SET: {
       break;
     }
@@ -1207,6 +1300,14 @@ const char* Action::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           ptr = ctx->ParseMessage(_internal_mutable_create_order(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .matcher_proto.Snapshot snapshot = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_snapshot(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -1254,6 +1355,13 @@ uint8_t* Action::_InternalSerialize(
         _Internal::create_order(this).GetCachedSize(), target, stream);
   }
 
+  // .matcher_proto.Snapshot snapshot = 3;
+  if (_internal_has_snapshot()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::snapshot(this),
+        _Internal::snapshot(this).GetCachedSize(), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1283,6 +1391,13 @@ size_t Action::ByteSizeLong() const {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
           *_impl_.action_.create_order_);
+      break;
+    }
+    // .matcher_proto.Snapshot snapshot = 3;
+    case kSnapshot: {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.action_.snapshot_);
       break;
     }
     case ACTION_NOT_SET: {
@@ -1318,6 +1433,11 @@ void Action::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
           from._internal_create_order());
       break;
     }
+    case kSnapshot: {
+      _this->_internal_mutable_snapshot()->::matcher_proto::Snapshot::MergeFrom(
+          from._internal_snapshot());
+      break;
+    }
     case ACTION_NOT_SET: {
       break;
     }
@@ -1346,7 +1466,7 @@ void Action::InternalSwap(Action* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Action::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_matcher_2eproto_getter, &descriptor_table_matcher_2eproto_once,
-      file_level_metadata_matcher_2eproto[4]);
+      file_level_metadata_matcher_2eproto[5]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -1367,6 +1487,10 @@ Arena::CreateMaybeMessage< ::matcher_proto::CreateBook >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::matcher_proto::CreateOrder*
 Arena::CreateMaybeMessage< ::matcher_proto::CreateOrder >(Arena* arena) {
   return Arena::CreateMessageInternal< ::matcher_proto::CreateOrder >(arena);
+}
+template<> PROTOBUF_NOINLINE ::matcher_proto::Snapshot*
+Arena::CreateMaybeMessage< ::matcher_proto::Snapshot >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::matcher_proto::Snapshot >(arena);
 }
 template<> PROTOBUF_NOINLINE ::matcher_proto::Action*
 Arena::CreateMaybeMessage< ::matcher_proto::Action >(Arena* arena) {

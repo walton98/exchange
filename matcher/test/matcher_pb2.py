@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 import types_pb2 as types__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmatcher.proto\x12\rmatcher_proto\x1a\x0btypes.proto\"\x12\n\x04\x42ook\x12\n\n\x02id\x18\x01 \x01(\x04\"U\n\x05Order\x12\n\n\x02id\x18\x01 \x01(\x04\x12\r\n\x05price\x18\x02 \x01(\x04\x12\x10\n\x08quantity\x18\x03 \x01(\x04\x12\x1f\n\x04side\x18\x04 \x01(\x0e\x32\x11.types_proto.Side\"/\n\nCreateBook\x12!\n\x04\x62ook\x18\x01 \x01(\x0b\x32\x13.matcher_proto.Book\"C\n\x0b\x43reateOrder\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\x04\x12#\n\x05order\x18\x02 \x01(\x0b\x32\x14.matcher_proto.Order\"x\n\x06\x41\x63tion\x12\x30\n\x0b\x63reate_book\x18\x01 \x01(\x0b\x32\x19.matcher_proto.CreateBookH\x00\x12\x32\n\x0c\x63reate_order\x18\x02 \x01(\x0b\x32\x1a.matcher_proto.CreateOrderH\x00\x42\x08\n\x06\x61\x63tionb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmatcher.proto\x12\rmatcher_proto\x1a\x0btypes.proto\"\x12\n\x04\x42ook\x12\n\n\x02id\x18\x01 \x01(\x04\"U\n\x05Order\x12\n\n\x02id\x18\x01 \x01(\x04\x12\r\n\x05price\x18\x02 \x01(\x04\x12\x10\n\x08quantity\x18\x03 \x01(\x04\x12\x1f\n\x04side\x18\x04 \x01(\x0e\x32\x11.types_proto.Side\"/\n\nCreateBook\x12!\n\x04\x62ook\x18\x01 \x01(\x0b\x32\x13.matcher_proto.Book\"C\n\x0b\x43reateOrder\x12\x0f\n\x07\x62ook_id\x18\x01 \x01(\x04\x12#\n\x05order\x18\x02 \x01(\x0b\x32\x14.matcher_proto.Order\"\n\n\x08Snapshot\"\xa5\x01\n\x06\x41\x63tion\x12\x30\n\x0b\x63reate_book\x18\x01 \x01(\x0b\x32\x19.matcher_proto.CreateBookH\x00\x12\x32\n\x0c\x63reate_order\x18\x02 \x01(\x0b\x32\x1a.matcher_proto.CreateOrderH\x00\x12+\n\x08snapshot\x18\x03 \x01(\x0b\x32\x17.matcher_proto.SnapshotH\x00\x42\x08\n\x06\x61\x63tionb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'matcher_pb2', globals())
@@ -29,6 +29,8 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _CREATEBOOK._serialized_end=199
   _CREATEORDER._serialized_start=201
   _CREATEORDER._serialized_end=268
-  _ACTION._serialized_start=270
-  _ACTION._serialized_end=390
+  _SNAPSHOT._serialized_start=270
+  _SNAPSHOT._serialized_end=280
+  _ACTION._serialized_start=283
+  _ACTION._serialized_end=448
 # @@protoc_insertion_point(module_scope)

@@ -18,10 +18,16 @@ enum engine_error {
 class engine {
 public:
   engine() : books_{} {}
+
   [[nodiscard]] std::expected<void, engine_error>
   operator()(const request::create_book &);
+
   [[nodiscard]] std::expected<void, engine_error>
   operator()(const request::create_order &);
+
+  [[nodiscard]] std::expected<void, engine_error>
+  operator()(const request::snapshot &);
+
   [[nodiscard]] std::expected<void, engine_error>
   operator()(const std::monostate &) {
     return std::unexpected{engine_error::invalid_request};

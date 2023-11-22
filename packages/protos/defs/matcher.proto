@@ -24,9 +24,12 @@ message CreateOrder {
   Order order = 2;
 }
 
+message Snapshot {}
+
 message Action {
   oneof action {
     CreateBook create_book = 1;
     CreateOrder create_order = 2;
+    Snapshot snapshot = 3;
   }
 }

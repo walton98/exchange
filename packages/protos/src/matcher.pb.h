@@ -23,6 +23,7 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/arena.h>
 #include <google/protobuf/arenastring.h>
+#include <google/protobuf/generated_message_bases.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata_lite.h>
 #include <google/protobuf/generated_message_reflection.h>
@@ -61,6 +62,9 @@ extern CreateOrderDefaultTypeInternal _CreateOrder_default_instance_;
 class Order;
 struct OrderDefaultTypeInternal;
 extern OrderDefaultTypeInternal _Order_default_instance_;
+class Snapshot;
+struct SnapshotDefaultTypeInternal;
+extern SnapshotDefaultTypeInternal _Snapshot_default_instance_;
 }  // namespace matcher_proto
 PROTOBUF_NAMESPACE_OPEN
 template<> ::matcher_proto::Action* Arena::CreateMaybeMessage<::matcher_proto::Action>(Arena*);
@@ -68,6 +72,7 @@ template<> ::matcher_proto::Book* Arena::CreateMaybeMessage<::matcher_proto::Boo
 template<> ::matcher_proto::CreateBook* Arena::CreateMaybeMessage<::matcher_proto::CreateBook>(Arena*);
 template<> ::matcher_proto::CreateOrder* Arena::CreateMaybeMessage<::matcher_proto::CreateOrder>(Arena*);
 template<> ::matcher_proto::Order* Arena::CreateMaybeMessage<::matcher_proto::Order>(Arena*);
+template<> ::matcher_proto::Snapshot* Arena::CreateMaybeMessage<::matcher_proto::Snapshot>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace matcher_proto {
 
@@ -727,6 +732,124 @@ class CreateOrder final :
 };
 // -------------------------------------------------------------------
 
+class Snapshot final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:matcher_proto.Snapshot) */ {
+ public:
+  inline Snapshot() : Snapshot(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR Snapshot(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Snapshot(const Snapshot& from);
+  Snapshot(Snapshot&& from) noexcept
+    : Snapshot() {
+    *this = ::std::move(from);
+  }
+
+  inline Snapshot& operator=(const Snapshot& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Snapshot& operator=(Snapshot&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Snapshot& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Snapshot* internal_default_instance() {
+    return reinterpret_cast<const Snapshot*>(
+               &_Snapshot_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(Snapshot& a, Snapshot& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Snapshot* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Snapshot* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Snapshot* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Snapshot>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const Snapshot& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const Snapshot& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "matcher_proto.Snapshot";
+  }
+  protected:
+  explicit Snapshot(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:matcher_proto.Snapshot)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_matcher_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Action final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:matcher_proto.Action) */ {
  public:
@@ -773,6 +896,7 @@ class Action final :
   enum ActionCase {
     kCreateBook = 1,
     kCreateOrder = 2,
+    kSnapshot = 3,
     ACTION_NOT_SET = 0,
   };
 
@@ -781,7 +905,7 @@ class Action final :
                &_Action_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(Action& a, Action& b) {
     a.Swap(&b);
@@ -856,6 +980,7 @@ class Action final :
   enum : int {
     kCreateBookFieldNumber = 1,
     kCreateOrderFieldNumber = 2,
+    kSnapshotFieldNumber = 3,
   };
   // .matcher_proto.CreateBook create_book = 1;
   bool has_create_book() const;
@@ -893,6 +1018,24 @@ class Action final :
       ::matcher_proto::CreateOrder* create_order);
   ::matcher_proto::CreateOrder* unsafe_arena_release_create_order();
 
+  // .matcher_proto.Snapshot snapshot = 3;
+  bool has_snapshot() const;
+  private:
+  bool _internal_has_snapshot() const;
+  public:
+  void clear_snapshot();
+  const ::matcher_proto::Snapshot& snapshot() const;
+  PROTOBUF_NODISCARD ::matcher_proto::Snapshot* release_snapshot();
+  ::matcher_proto::Snapshot* mutable_snapshot();
+  void set_allocated_snapshot(::matcher_proto::Snapshot* snapshot);
+  private:
+  const ::matcher_proto::Snapshot& _internal_snapshot() const;
+  ::matcher_proto::Snapshot* _internal_mutable_snapshot();
+  public:
+  void unsafe_arena_set_allocated_snapshot(
+      ::matcher_proto::Snapshot* snapshot);
+  ::matcher_proto::Snapshot* unsafe_arena_release_snapshot();
+
   void clear_action();
   ActionCase action_case() const;
   // @@protoc_insertion_point(class_scope:matcher_proto.Action)
@@ -900,6 +1043,7 @@ class Action final :
   class _Internal;
   void set_has_create_book();
   void set_has_create_order();
+  void set_has_snapshot();
 
   inline bool has_action() const;
   inline void clear_has_action();
@@ -913,6 +1057,7 @@ class Action final :
         ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized _constinit_;
       ::matcher_proto::CreateBook* create_book_;
       ::matcher_proto::CreateOrder* create_order_;
+      ::matcher_proto::Snapshot* snapshot_;
     } action_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     uint32_t _oneof_case_[1];
@@ -1246,6 +1391,10 @@ inline void CreateOrder::set_allocated_order(::matcher_proto::Order* order) {
 
 // -------------------------------------------------------------------
 
+// Snapshot
+
+// -------------------------------------------------------------------
+
 // Action
 
 // .matcher_proto.CreateBook create_book = 1;
@@ -1396,6 +1545,80 @@ inline ::matcher_proto::CreateOrder* Action::mutable_create_order() {
   return _msg;
 }
 
+// .matcher_proto.Snapshot snapshot = 3;
+inline bool Action::_internal_has_snapshot() const {
+  return action_case() == kSnapshot;
+}
+inline bool Action::has_snapshot() const {
+  return _internal_has_snapshot();
+}
+inline void Action::set_has_snapshot() {
+  _impl_._oneof_case_[0] = kSnapshot;
+}
+inline void Action::clear_snapshot() {
+  if (_internal_has_snapshot()) {
+    if (GetArenaForAllocation() == nullptr) {
+      delete _impl_.action_.snapshot_;
+    }
+    clear_has_action();
+  }
+}
+inline ::matcher_proto::Snapshot* Action::release_snapshot() {
+  // @@protoc_insertion_point(field_release:matcher_proto.Action.snapshot)
+  if (_internal_has_snapshot()) {
+    clear_has_action();
+    ::matcher_proto::Snapshot* temp = _impl_.action_.snapshot_;
+    if (GetArenaForAllocation() != nullptr) {
+      temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.action_.snapshot_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::matcher_proto::Snapshot& Action::_internal_snapshot() const {
+  return _internal_has_snapshot()
+      ? *_impl_.action_.snapshot_
+      : reinterpret_cast< ::matcher_proto::Snapshot&>(::matcher_proto::_Snapshot_default_instance_);
+}
+inline const ::matcher_proto::Snapshot& Action::snapshot() const {
+  // @@protoc_insertion_point(field_get:matcher_proto.Action.snapshot)
+  return _internal_snapshot();
+}
+inline ::matcher_proto::Snapshot* Action::unsafe_arena_release_snapshot() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:matcher_proto.Action.snapshot)
+  if (_internal_has_snapshot()) {
+    clear_has_action();
+    ::matcher_proto::Snapshot* temp = _impl_.action_.snapshot_;
+    _impl_.action_.snapshot_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Action::unsafe_arena_set_allocated_snapshot(::matcher_proto::Snapshot* snapshot) {
+  clear_action();
+  if (snapshot) {
+    set_has_snapshot();
+    _impl_.action_.snapshot_ = snapshot;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:matcher_proto.Action.snapshot)
+}
+inline ::matcher_proto::Snapshot* Action::_internal_mutable_snapshot() {
+  if (!_internal_has_snapshot()) {
+    clear_action();
+    set_has_snapshot();
+    _impl_.action_.snapshot_ = CreateMaybeMessage< ::matcher_proto::Snapshot >(GetArenaForAllocation());
+  }
+  return _impl_.action_.snapshot_;
+}
+inline ::matcher_proto::Snapshot* Action::mutable_snapshot() {
+  ::matcher_proto::Snapshot* _msg = _internal_mutable_snapshot();
+  // @@protoc_insertion_point(field_mutable:matcher_proto.Action.snapshot)
+  return _msg;
+}
+
 inline bool Action::has_action() const {
   return action_case() != ACTION_NOT_SET;
 }
@@ -1408,6 +1631,8 @@ inline Action::ActionCase Action::action_case() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

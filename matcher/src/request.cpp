@@ -19,6 +19,8 @@ auto handle_message(const matcher_proto::Action &action)
     return request::create_book{action.create_book()};
   case matcher_proto::Action::kCreateOrder:
     return request::create_order{action.create_order()};
+  case matcher_proto::Action::kSnapshot:
+    return request::snapshot{};
   default:
     std::cout << "not set" << std::endl;
     return std::unexpected{parse_error::unknown};

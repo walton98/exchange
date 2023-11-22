@@ -17,4 +17,10 @@ engine::operator()(const request::create_order &request) {
   return {};
 }
 
+std::expected<void, engine_error>
+engine::operator()(const request::snapshot &request) {
+  std::cout << "snapshotting" << std::endl;
+  return {};
+}
+
 } // namespace matcher
