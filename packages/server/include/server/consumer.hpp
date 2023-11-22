@@ -39,14 +39,14 @@ template <typename F> class consumer {
       std::array<char, max_size_> data{};
       asio::ip::udp::endpoint remote_endpoint_;
       asio::error_code ec;
-      co_await socket_.async_receive_from(
+      auto size = co_await socket_.async_receive_from(
           asio::buffer(data, max_size_), remote_endpoint_,
           asio::redirect_error(asio::use_awaitable, ec));
       if (ec) {
         std::cout << "error processing message: " << ec.message() << std::endl;
         continue;
       }
-      std::invoke(f_, std::string(data.data()));
+      std::invoke(f_, std::string(data.data(), size));
     }
     std::cout << "shutting down" << std::endl;
     socket_.close();
