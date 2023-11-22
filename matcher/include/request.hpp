@@ -63,7 +63,10 @@ private:
   types::order order_;
 };
 
-using request_t = std::variant<std::monostate, create_book, create_order>;
+class snapshot {};
+
+using request_t =
+    std::variant<std::monostate, create_book, create_order, snapshot>;
 
 } // namespace request
 
