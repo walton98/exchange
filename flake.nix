@@ -54,6 +54,7 @@
           buildInputs = with clangPkgs; [
             # C++ libraries
             asio
+            boost
             protobuf3_21
 
             # Build tools
@@ -67,6 +68,8 @@
 
             # Testing
             catch2_3
+
+            entr
           ] ++ [
             # Test client
             python3
