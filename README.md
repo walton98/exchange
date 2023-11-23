@@ -12,6 +12,14 @@ Simple exchange:
 
 To enter a dev shell with all the necessary build tools, use `nix develop`.
 
+## Utilities
+
+### Watcher
+
+```bash
+find -name '*.?pp' | entr -s "cmake --build build"
+```
+
 ## Architecture
 
 ### Components
