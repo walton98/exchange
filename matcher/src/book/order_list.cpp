@@ -9,7 +9,7 @@ auto order_list::find_location(const types::order &order) const {
   auto prev = it;
   ++it;
   while (true) {
-    if (it == order_list_.end() || price_is_better(order.px, it->px)) {
+    if (it == order_list_.end() || price_is_better(order.price, it->price)) {
       return prev;
     }
     ++it;
