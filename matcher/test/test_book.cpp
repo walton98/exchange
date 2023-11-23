@@ -7,10 +7,10 @@
 
 /// Return order_ids in book, in the order in which they appear.
 auto get_book_order_ids(matcher::book::book &book, types::side side) {
-  std::vector<types::order_id_t> ids{};
+  std::vector<types::order_id> ids{};
   for (auto order_it = book.begin(side); order_it != book.end(side);
        ++order_it) {
-    ids.push_back(order_it->id);
+    ids.push_back(order_it->order_id);
   }
   return ids;
 }
@@ -31,7 +31,7 @@ TEST_CASE("Insert buy orders") {
       // Worst price
       {4, 1, 3, types::side::buy},
   };
-  std::vector<types::order_id_t> expected_buy_ids{2, 1, 3, 4};
+  std::vector<types::order_id> expected_buy_ids{2, 1, 3, 4};
 
   matcher::book::book book{1};
   insert_orders(book, orders);
@@ -50,7 +50,7 @@ TEST_CASE("Insert sell orders") {
       // Best price
       {4, 1, 3, types::side::sell},
   };
-  std::vector<types::order_id_t> expected_ids{4, 1, 3, 2};
+  std::vector<types::order_id> expected_ids{4, 1, 3, 2};
 
   matcher::book::book book{1};
   insert_orders(book, orders);

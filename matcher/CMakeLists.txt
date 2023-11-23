@@ -9,6 +9,7 @@ target_include_directories(matcher_lib PUBLIC include)
 target_link_libraries(
   matcher_lib
   PUBLIC
+  Boost::serialization
   Threads::Threads
   exchange::protos
   exchange::ring_buffer
@@ -18,7 +19,10 @@ add_executable(matcher src/main.cpp)
 target_link_libraries(matcher PRIVATE matcher_lib)
 add_executable(exchange::matcher ALIAS matcher)
 
-add_executable(matcher_test test/test_book.cpp)
+add_executable(
+  matcher_test
+  test/test_book.cpp
+  test/test_snapshot.cpp)
 target_link_libraries(
   matcher_test
   PRIVATE
