@@ -23,6 +23,8 @@ struct order {
   types::price price;
   types::quantity quantity;
   types::side side;
+
+  bool operator<=>(order const &other) const noexcept = default;
 };
 
 } // namespace types

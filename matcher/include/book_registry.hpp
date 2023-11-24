@@ -3,6 +3,8 @@
 
 #include <unordered_map>
 
+#include <boost/serialization/unordered_map.hpp>
+
 #include "book/book.hpp"
 
 namespace matcher {
@@ -15,6 +17,11 @@ public:
 
   [[nodiscard]] constexpr auto &get_book(types::book_id book_id) {
     return books_.at(book_id);
+  }
+
+  template <typename Archive>
+  void serialize(Archive &ar, unsigned int const /*version*/) {
+    ar &boost::serialization::make_nvp("books", books_);
   }
 };
 
