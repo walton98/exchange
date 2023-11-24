@@ -20,7 +20,8 @@ enum engine_error {
 
 class engine {
 public:
-  engine() : books_{} {}
+  explicit engine(std::string_view snapshot_file)
+      : books_{}, snapshot_file_{snapshot_file} {}
 
   [[nodiscard]] std::expected<void, engine_error>
   operator()(const request::create_book &);
