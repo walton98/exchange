@@ -17,11 +17,7 @@ namespace book {
 
 class book {
 public:
-  explicit book(types::book_id id)
-      : book_id_{id}, buy_orders_{types::side::buy},
-        sell_orders_{types::side::sell} {}
-
-  [[nodiscard]] constexpr auto book_id() const noexcept { return book_id_; }
+  book() : buy_orders_{types::side::buy}, sell_orders_{types::side::sell} {}
 
   [[nodiscard]] const auto begin(types::side side) noexcept {
     return get_order_list(side).begin();
@@ -37,13 +33,11 @@ public:
 
   template <typename Archive>
   void serialize(Archive &ar, unsigned int const /*version*/) {
-    ar &boost::serialization::make_nvp("book_id", book_id_);
     ar &boost::serialization::make_nvp("buy_orders", buy_orders_);
     ar &boost::serialization::make_nvp("sell_orders", sell_orders_);
   }
 
 private:
-  types::book_id book_id_;
   order_list buy_orders_;
   order_list sell_orders_;
 
@@ -70,10 +64,8 @@ inline void save_construct_data(
     Archive &ar,
     std::pair<types::book_id const, matcher::book::book> const *source,
     unsigned int const /*version*/) {
-  matcher::book::book const &book = source->second;
-  auto book_id = book.book_id();
-
-  ar << boost::serialization::make_nvp("book_id", book_id);
+  auto book_id = source->first;
+  ar << BOOST_SERIALIZATION_NVP(book_id);
 }
 
 template <typename Archive>
@@ -81,12 +73,10 @@ inline void load_construct_data(
     Archive &ar, std::pair<types::book_id const, matcher::book::book> *target,
     unsigned int const /*version*/) {
   types::book_id book_id{};
-
-  ar >> boost::serialization::make_nvp("book_id", book_id);
+  ar >> BOOST_SERIALIZATION_NVP(book_id);
 
   new (target) std::pair<types::book_id const, matcher::book::book>{
-      std::piecewise_construct, std::make_tuple(book_id),
-      std::make_tuple(book_id)};
+      std::piecewise_construct, std::make_tuple(book_id), std::make_tuple()};
 }
 
 } // namespace boost::serialization

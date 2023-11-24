@@ -11,14 +11,14 @@ engine::~engine() {
 
 std::expected<void, engine_error>
 engine::operator()(const request::create_book &request) {
-  books_.create_book(request.id());
+  registry_.create_book(request.id());
   std::cout << "creating book" << std::endl;
   return {};
 }
 
 std::expected<void, engine_error>
 engine::operator()(const request::create_order &request) {
-  auto &book = books_.get_book(request.book_id());
+  auto &book = registry_.get_book(request.book_id());
   book.insert_order(request.order());
   std::cout << "creating order" << std::endl;
   return {};
@@ -37,7 +37,7 @@ engine::operator()(const request::snapshot &request) {
   std::cout << "snapshotting" << std::endl;
   // copy registry in memory to another thread,
   // and write to disk in thread.
-  auto writer_fn = [fn = snapshot_file_, reg = books_]() {
+  auto writer_fn = [fn = snapshot_file_, reg = registry_]() {
     save_engine_registry(reg, fn);
   };
   snapshot_future_ = std::async(std::launch::async, writer_fn);

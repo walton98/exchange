@@ -33,7 +33,7 @@ TEST_CASE("Insert buy orders") {
   };
   std::vector<types::order_id> expected_buy_ids{2, 1, 3, 4};
 
-  matcher::book::book book{1};
+  matcher::book::book book{};
   insert_orders(book, orders);
 
   auto buy_ids = get_book_order_ids(book, types::side::buy);
@@ -52,7 +52,7 @@ TEST_CASE("Insert sell orders") {
   };
   std::vector<types::order_id> expected_ids{4, 1, 3, 2};
 
-  matcher::book::book book{1};
+  matcher::book::book book{};
   insert_orders(book, orders);
 
   auto ids = get_book_order_ids(book, types::side::sell);
