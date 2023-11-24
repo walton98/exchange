@@ -14,14 +14,14 @@
 
 namespace matcher {
 
-inline void save_engine_registry(const book_registry &reg,
+inline void save_engine_registry(const book_registry &registry,
                                  std::string_view filename) {
   auto ofs = std::ofstream(filename);
   boost::archive::xml_oarchive oa(ofs);
-  oa << boost::serialization::make_nvp("registry", reg);
+  oa << BOOST_SERIALIZATION_NVP(registry);
 }
 
-inline auto load_engine_registry(book_registry &reg,
+inline auto load_engine_registry(book_registry &registry,
                                  std::string_view filename) {
   if (!std::filesystem::exists(filename)) {
     std::cout << "missing state file" << std::endl;
@@ -31,7 +31,7 @@ inline auto load_engine_registry(book_registry &reg,
   std::cout << "restoring from state file" << std::endl;
   auto ifs = std::ifstream(filename);
   boost::archive::xml_iarchive ia(ifs);
-  ia >> boost::serialization::make_nvp("registry", reg);
+  ia >> BOOST_SERIALIZATION_NVP(registry);
 }
 
 enum engine_error {
@@ -43,7 +43,7 @@ enum engine_error {
 class engine {
 public:
   explicit engine(std::string_view snapshot_file)
-      : books_{}, snapshot_file_{snapshot_file}, snapshot_future_{} {}
+      : registry_{}, snapshot_file_{snapshot_file}, snapshot_future_{} {}
 
   engine(const engine &) = delete;
   engine(engine &&) = delete;
@@ -66,12 +66,12 @@ public:
     return std::unexpected{engine_error::invalid_request};
   }
 
-  constexpr auto &registry() noexcept { return books_; }
+  constexpr auto &registry() noexcept { return registry_; }
 
-  void restore() { load_engine_registry(books_, snapshot_file_); }
+  void restore() { load_engine_registry(registry_, snapshot_file_); }
 
 private:
-  matcher::book_registry books_;
+  matcher::book_registry registry_;
   // TODO: support timestamped filenames so as
   //       to not overwrite old snapshots.
   std::string snapshot_file_;
