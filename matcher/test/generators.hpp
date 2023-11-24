@@ -12,11 +12,12 @@ namespace generators {
 static constexpr unsigned int max_quantity{1'000'000};
 static constexpr types::price max_price{10000};
 
-class RandomOrderGenerator : public Catch::Generators::IGenerator<types::order> {
+class RandomOrderGenerator
+    : public Catch::Generators::IGenerator<types::order> {
 public:
   RandomOrderGenerator()
-      : rand_{std::random_device{}()}, order_id_{},
-        price_dist_{0, max_price}, quantity_dist_{0, max_quantity}, side_dist_{0, 1}, current_order_{} {
+      : rand_{std::random_device{}()}, order_id_{}, price_dist_{0, max_price},
+        quantity_dist_{0, max_quantity}, side_dist_{0, 1}, current_order_{} {
     static_cast<void>(next());
   }
 

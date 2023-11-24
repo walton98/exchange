@@ -12,7 +12,6 @@
 #include "request.hpp"
 
 void run() {
-
   asio::io_context ioc;
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
@@ -28,7 +27,7 @@ void run() {
                         std::move(request_handler)};
   cons.start();
 
-  matcher::engine engine{};
+  matcher::engine engine{"state.xml"};
   auto handler_thread = std::thread([&]() {
     for (const auto batch :
          ring_buffer::batch_iterate(buf, cursors.cons_cursor, 32)) {
