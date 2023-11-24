@@ -11,11 +11,12 @@
 
 #include "generators.hpp"
 
-auto save_and_restore(matcher::engine &engine, std::string_view filename) {
-  engine.save();
-  matcher::engine reloaded_engine{filename};
-  reloaded_engine.restore();
-  return reloaded_engine;
+auto save_and_restore(matcher::book_registry &registry,
+                      std::string_view filename) {
+  matcher::save_engine_registry(registry, filename);
+  matcher::book_registry restored_registry{};
+  matcher::load_engine_registry(restored_registry, filename);
+  return restored_registry;
 }
 
 auto insert_orders(matcher::book::book &book, std::span<types::order> orders) {
@@ -39,10 +40,10 @@ TEST_CASE("Test book registry serialization and deserialization") {
 
   constexpr int num_books = 5;
   constexpr int num_orders = 5;
-  matcher::engine engine{filename};
+  matcher::book_registry registry{};
 
   {
-    auto books = create_books(engine.registry(), num_books);
+    auto books = create_books(registry, num_books);
     for (auto book : books) {
       auto orders =
           GENERATE_COPY(take(1, chunk(num_orders, generators::random_order())));
@@ -51,10 +52,9 @@ TEST_CASE("Test book registry serialization and deserialization") {
   }
 
   {
-    auto reloaded_engine = save_and_restore(engine, filename);
+    auto restored_registry = save_and_restore(registry, filename);
     for (auto i : std::views::iota(0, num_books)) {
-      REQUIRE(reloaded_engine.registry().get_book(i) ==
-              engine.registry().get_book(i));
+      REQUIRE(restored_registry.get_book(i) == registry.get_book(i));
     }
   }
 }
