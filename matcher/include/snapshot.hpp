@@ -16,6 +16,6 @@ template <class T> inline T read_from_file(const std::string &filename) {
   std::ifstream ifs(filename);
   boost::archive::xml_iarchive ia(ifs);
   T state;
-  ia >> boost::serialization::make_nvp("state", state);
+  ia >> BOOST_SERIALIZATION_NVP(state);
   return state;
 }
