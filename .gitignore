@@ -4,4 +4,4 @@ compile_commands.json
 *.pyc
 __pycache__
 Testing/
-output.xml
+state.xml
