@@ -56,6 +56,7 @@
             asio
             boost
             protobuf3_21
+            spdlog
 
             # Build tools
             cmake
