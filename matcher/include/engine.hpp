@@ -15,24 +15,10 @@
 namespace matcher {
 
 inline void save_engine_registry(const book_registry &registry,
-                                 std::string_view filename) {
-  auto ofs = std::ofstream(filename);
-  boost::archive::xml_oarchive oa(ofs);
-  oa << BOOST_SERIALIZATION_NVP(registry);
-}
+                                 std::string_view filename);
 
-inline auto load_engine_registry(book_registry &registry,
-                                 std::string_view filename) {
-  if (!std::filesystem::exists(filename)) {
-    std::cout << "missing state file" << std::endl;
-    return;
-  }
-
-  std::cout << "restoring from state file" << std::endl;
-  auto ifs = std::ifstream(filename);
-  boost::archive::xml_iarchive ia(ifs);
-  ia >> BOOST_SERIALIZATION_NVP(registry);
-}
+inline void load_engine_registry(book_registry &registry,
+                                 std::string_view filename);
 
 enum engine_error {
   already_exists,
@@ -68,7 +54,7 @@ public:
 
   constexpr auto &registry() noexcept { return registry_; }
 
-  void restore() { load_engine_registry(registry_, snapshot_file_); }
+  void restore();
 
 private:
   matcher::book_registry registry_;

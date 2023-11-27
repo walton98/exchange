@@ -10,6 +10,7 @@ target_link_libraries(
   matcher_lib
   PUBLIC
   Boost::serialization
+  spdlog::spdlog
   Threads::Threads
   exchange::protos
   exchange::ring_buffer
