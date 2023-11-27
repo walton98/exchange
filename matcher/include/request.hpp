@@ -6,6 +6,7 @@
 
 #include <matcher.pb.h>
 #include <ring_buffer/ring_buffer.hpp>
+#include <spdlog/spdlog.h>
 #include <types.pb.h>
 
 #include "types.hpp"
@@ -72,14 +73,46 @@ using request_t =
 
 using RingBuf = ring_buffer::ring_buffer<matcher::request::request_t, 4096>;
 
-class consumer {
+class queuer {
 public:
-  consumer(ring_buffer::producer<RingBuf> prod) : prod_{std::move(prod)} {}
+  queuer(ring_buffer::producer<RingBuf> prod) : prod_{std::move(prod)} {}
 
-  void operator()(const std::string &data);
+  void operator()(const matcher_proto::Action &action);
 
 private:
   ring_buffer::producer<RingBuf> prod_;
+};
+
+// TODO: move into shared package
+template <typename F, typename T> class sequencer {
+public:
+  explicit sequencer(F &&f) : f_{std::move(f)} {}
+
+  void operator()(uint64_t seq_num, const T &payload) {
+    spdlog::debug("Got message with seqnum: {}", seq_num);
+    f_(payload);
+  }
+
+private:
+  F f_;
+};
+
+// TODO: move into shared package
+template <typename F> class decoder {
+public:
+  explicit decoder(F &&f) : f_{std::move(f)} {}
+
+  void operator()(const std::string &data) {
+    matcher_proto::Envelope envelope;
+    if (!envelope.ParseFromString(data)) {
+      spdlog::warn("Could not parse message");
+      return;
+    }
+    f_(envelope.seq_num(), envelope.action());
+  }
+
+private:
+  F f_;
 };
 
 } // namespace matcher

@@ -9,7 +9,7 @@ MCAST_PORT = 30001
 MULTICAST_TTL = 2
 
 
-@pytest.fixture()
+@pytest.fixture(scope="session")
 def matcher_client() -> MatcherClient:
     return MatcherClient(MCAST_GRP, MCAST_PORT, MULTICAST_TTL)
 

@@ -29,13 +29,7 @@ auto handle_message(const matcher_proto::Action &action)
 
 } // namespace
 
-void consumer::operator()(const std::string &data) {
-  matcher_proto::Action action;
-  if (!action.ParseFromString(data)) {
-    std::cout << "could not parse message" << std::endl;
-    return;
-  }
-
+void queuer::operator()(const matcher_proto::Action &action) {
   // TODO: handle unexpected
   auto parsed_action = handle_message(action).value();
 
