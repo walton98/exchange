@@ -11,16 +11,23 @@ engine::~engine() {
 
 std::expected<void, engine_error>
 engine::operator()(const request::create_book &request) {
-  registry_.create_book(request.id());
-  std::cout << "creating book" << std::endl;
-  return {};
+  auto inserted = registry_.create_book(request.id());
+  if (inserted) {
+    std::cout << "created book" << std::endl;
+    return {};
+  } else {
+    std::cout << "book already exists" << std::endl;
+    return std::unexpected{engine_error::already_exists};
+  }
 }
 
 std::expected<void, engine_error>
 engine::operator()(const request::create_order &request) {
+  // TODO: check order id doesn't already exist
+  //       may need list of order ids in whole registry?
   auto &book = registry_.get_book(request.book_id());
   book.insert_order(request.order());
-  std::cout << "creating order" << std::endl;
+  std::cout << "created order" << std::endl;
   return {};
 }
 
