@@ -1,6 +1,6 @@
 import socket
 
-from matcher_pb2 import Action
+from matcher_pb2 import Action, Envelope
 
 
 class MatcherClient:
@@ -10,7 +10,10 @@ class MatcherClient:
         self._sock = sock
         self._mcast_grp = mcast_grp
         self._mcast_port = mcast_port
+        self._seq_num = 0
 
     def send_request(self, action: Action) -> None:
-        msg = action.SerializeToString()
+        env = Envelope(action=action, seq_num=self._seq_num)
+        msg = env.SerializeToString()
         self._sock.sendto(msg, (self._mcast_grp, self._mcast_port))
+        self._seq_num += 1

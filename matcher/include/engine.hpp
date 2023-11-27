@@ -14,11 +14,10 @@
 
 namespace matcher {
 
-inline void save_engine_registry(const book_registry &registry,
-                                 std::string_view filename);
+void save_engine_registry(const book_registry &registry,
+                          std::string_view filename);
 
-inline void load_engine_registry(book_registry &registry,
-                                 std::string_view filename);
+void load_engine_registry(book_registry &registry, std::string_view filename);
 
 enum engine_error {
   already_exists,
