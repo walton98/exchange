@@ -7,6 +7,7 @@
 #include <spdlog/spdlog.h>
 
 #include <server/consumer.hpp>
+#include <server/layers.hpp>
 
 #include "book_registry.hpp"
 #include "engine.hpp"
@@ -18,9 +19,9 @@ auto create_consumer(asio::io_context &ioc, auto &prod) {
 
   // Create handler layers
   auto queuer = matcher::queuer{prod};
-  auto sequencer = matcher::sequencer<matcher::queuer, matcher_proto::Action>{
+  auto sequencer = server::sequencer<decltype(queuer), matcher_proto::Action>{
       std::move(queuer)};
-  auto decoder = matcher::decoder{std::move(sequencer)};
+  auto decoder = server::decoder{std::move(sequencer)};
 
   return server::consumer{ioc, multicast_port, multicast_host,
                           std::move(decoder)};
@@ -28,6 +29,7 @@ auto create_consumer(asio::io_context &ioc, auto &prod) {
 
 void run() {
   spdlog::set_level(spdlog::level::debug);
+
   matcher::engine engine{"state.xml"};
   engine.restore();
 
