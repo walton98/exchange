@@ -5,16 +5,13 @@ namespace matcher {
 namespace book {
 
 auto order_list::find_location(const types::order &order) const {
-  auto it = order_list_.before_begin();
-  auto prev = it;
-  ++it;
-  while (true) {
-    if (it == order_list_.end() || price_is_better(order.price, it->price)) {
-      return prev;
-    }
+  auto it = order_list_.begin();
+  auto prev = order_list_.before_begin();
+  while (it != order_list_.end() && !price_is_better(order.price, it->price)) {
     ++it;
     ++prev;
   }
+  return prev;
 }
 
 void order_list::insert_order(types::order &&ord) {
