@@ -78,7 +78,7 @@ class queuer {
 public:
   queuer(ring_buffer::producer<RingBuf> prod) : prod_{std::move(prod)} {}
 
-  void operator()(const matcher_proto::Action &action);
+  void operator()(const matcher_proto::Envelope &);
 
 private:
   ring_buffer::producer<RingBuf> prod_;

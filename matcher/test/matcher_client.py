@@ -12,8 +12,10 @@ class MatcherClient:
         self._mcast_port = mcast_port
         self._seq_num = 0
 
-    def send_request(self, action: Action) -> None:
-        env = Envelope(action=action, seq_num=self._seq_num)
+    def send_request(self, action: Action, seq_num: int | None = None) -> None:
+        if seq_num is None:
+            seq_num = self._seq_num
+            self._seq_num += 1
+        env = Envelope(action=action, seq_num=seq_num)
         msg = env.SerializeToString()
         self._sock.sendto(msg, (self._mcast_grp, self._mcast_port))
-        self._seq_num += 1

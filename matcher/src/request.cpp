@@ -29,9 +29,9 @@ auto handle_message(const matcher_proto::Action &action)
 
 } // namespace
 
-void queuer::operator()(const matcher_proto::Action &action) {
+void queuer::operator()(const matcher_proto::Envelope &envelope) {
   // TODO: handle unexpected
-  auto parsed_action = handle_message(action).value();
+  auto parsed_action = handle_message(envelope.action()).value();
 
   // send to ring buffer
   prod_.produce_one(parsed_action);
