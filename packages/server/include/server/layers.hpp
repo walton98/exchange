@@ -12,15 +12,25 @@ namespace server {
 
 template <typename F, typename T> class sequencer {
 public:
-  explicit sequencer(F &&f) : f_{std::move(f)} {}
+  sequencer(F &&f, uint64_t next_seq_num = 0)
+      : f_{std::move(f)}, next_seq_num_{next_seq_num} {}
 
   void operator()(uint64_t seq_num, const T &payload) {
-    spdlog::debug("Got message with seqnum: {}", seq_num);
-    f_(payload);
+    if (seq_num == next_seq_num_) {
+      spdlog::debug("Got message with seqnum: {}", seq_num);
+      f_(payload);
+      // TODO: drain from queue
+      ++next_seq_num_;
+    } else {
+      spdlog::warn("Skipping message: got {}, expected {}", seq_num,
+                   next_seq_num_);
+      // TODO: add to queue
+    }
   }
 
 private:
   F f_;
+  uint64_t next_seq_num_;
 };
 
 template <typename F> class decoder {
