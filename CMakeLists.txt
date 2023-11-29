@@ -30,3 +30,4 @@ include(Catch)
 
 add_subdirectory(packages)
 add_subdirectory(matcher)
+add_subdirectory(oms)
