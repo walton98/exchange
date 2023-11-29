@@ -19,6 +19,7 @@ auto create_consumer(asio::io_context &ioc, auto &prod) {
 
   // Create handler layers
   auto queuer = matcher::queuer{prod};
+  // TODO: pass in next seqnum from restore
   auto sequencer = server::sequencer<decltype(queuer), matcher_proto::Action>{
       std::move(queuer)};
   auto decoder = server::decoder{std::move(sequencer)};
