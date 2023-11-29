@@ -36,3 +36,9 @@ def test_create_book(matcher_client: MatcherClient) -> None:
 
 def test_snapshot(matcher_client: MatcherClient) -> None:
     snapshot(matcher_client)
+
+
+def test_seq_nums(matcher_client: MatcherClient) -> None:
+    action = create_book(420)
+    for i in reversed(range(32)):
+        matcher_client.send_request(action, seq_num=i)
