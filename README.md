@@ -20,6 +20,24 @@ To enter a dev shell with all the necessary build tools, use `nix develop`.
 find -name '*.?pp' | entr -s "cmake --build build"
 ```
 
+## Nix
+
+### Cache
+
+The CI automatically builds and pushes to the Cachix cache.
+However, to push manually (e.g. when updating nixpkgs/clang):
+
+```bash
+nix build --json \
+  | jq -r '.[].outputs | to_entries[].value' \
+  | cachix push walton98
+```
+
+The cache is write-restricted and an authentication token is required
+to push to it.
+
+[Reference](https://docs.cachix.org/pushing)
+
 ## Architecture
 
 ### Components

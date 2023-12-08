@@ -1,21 +1,11 @@
 #ifndef MATCHER_ORDER_LIST_HPP
 #define MATCHER_ORDER_LIST_HPP
 
-#include <algorithm>
 #include <forward_list>
 
 #include <boost/serialization/forward_list.hpp>
 
 #include "types.hpp"
-
-// TODO: remove this when upgrading to clang 17+
-//       https://reviews.llvm.org/D145172
-template <class Tp, class Allocator>
-inline auto operator<=>(const std::forward_list<Tp, Allocator> &x,
-                        const std::forward_list<Tp, Allocator> &y) {
-  return std::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end(),
-                                      std::compare_three_way{});
-}
 
 namespace matcher {
 
@@ -31,7 +21,7 @@ public:
 
   [[nodiscard]] auto end() const noexcept { return order_list_.end(); }
 
-  bool operator<=>(order_list const &other) const noexcept = default;
+  bool operator==(order_list const &other) const noexcept = default;
 
   template <typename Archive>
   void serialize(Archive &ar, unsigned int const /*version*/) {
