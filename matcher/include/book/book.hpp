@@ -29,7 +29,7 @@ public:
 
   void insert_order(types::order &&order);
 
-  bool operator<=>(book const &other) const noexcept = default;
+  bool operator==(book const &other) const noexcept = default;
 
   template <typename Archive>
   void serialize(Archive &ar, unsigned int const /*version*/) {

@@ -7,6 +7,15 @@ set(CMAKE_C_COMPILER clang)
 set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# ASIO currently doesn't detect coroutine support
+# since it only checks for the existence of the
+# removed <experimental/coroutine> header.
+# https://github.com/chriskohlhoff/asio/pull/1145
+#
+# Previously this was due to using libstdc++ instead of
+# libc++. But it broke again after upgrading to clang 17.
+add_compile_definitions(ASIO_HAS_CO_AWAIT ON)
+
 project(
   exchange
   VERSION
