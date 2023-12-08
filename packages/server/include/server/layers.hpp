@@ -6,19 +6,41 @@
 #include <string>
 #include <utility>
 
-#include <matcher.pb.h>
+#include <envelope.pb.h>
+#include <ring_buffer/ring_buffer.hpp>
 #include <spdlog/spdlog.h>
 
 namespace server {
 
-bool cmp(const matcher_proto::Envelope &lhs,
-         const matcher_proto::Envelope &rhs) {
+template <typename RingBuf, typename F> class queuer {
+public:
+  using Envelope = envelope_proto::Envelope;
+
+  queuer(ring_buffer::producer<RingBuf> prod, F &&f)
+      : prod_{std::move(prod)}, f_{f} {}
+
+  void operator()(const Envelope &proto) {
+    // TODO: handle unexpected
+    auto parsed_action = f_(proto).value();
+
+    // send to ring buffer
+    prod_.produce_one(parsed_action);
+    prod_.commit();
+  }
+
+private:
+  ring_buffer::producer<RingBuf> prod_;
+  F f_;
+};
+
+bool cmp(const envelope_proto::Envelope &lhs,
+         const envelope_proto::Envelope &rhs) {
   return lhs.seq_num() > rhs.seq_num();
 }
 
 template <typename F> class sequencer {
 public:
-  using Envelope = matcher_proto::Envelope;
+  using Envelope = envelope_proto::Envelope;
 
   sequencer(F &&f, uint64_t next_seq_num = 0)
       : f_{std::move(f)}, next_seq_num_{next_seq_num}, backlog_{cmp} {}
@@ -47,7 +69,7 @@ private:
                       std::function<bool(Envelope, Envelope)>>
       backlog_;
 
-  void execute(const matcher_proto::Envelope &env) {
+  void execute(const Envelope &env) {
     spdlog::debug("Executing message with seqnum: {}", env.seq_num());
     f_(env);
     ++next_seq_num_;
@@ -66,7 +88,7 @@ public:
   explicit decoder(F &&f) : f_{std::move(f)} {}
 
   void operator()(const std::string &data) {
-    matcher_proto::Envelope envelope;
+    envelope_proto::Envelope envelope;
     if (!envelope.ParseFromString(data)) {
       spdlog::warn("Could not parse message");
       return;

@@ -6,14 +6,37 @@
 
 namespace matcher {
 
+namespace request {
+
 namespace {
 
-enum class parse_error {
-  unknown,
-};
+types::side parse_side(const types_proto::Side side) {
+  switch (side) {
+  case types_proto::SIDE_BUY:
+    return types::side::buy;
+  case types_proto::SIDE_SELL:
+    return types::side::sell;
+  default:
+    __builtin_unreachable();
+  }
+}
 
-auto handle_message(const matcher_proto::Action &action)
+types::order parse_order(const matcher_proto::Order &order) {
+  return types::order{order.id(), order.price(), order.quantity(),
+                      parse_side(order.side())};
+}
+
+} // namespace
+
+create_order::create_order(const matcher_proto::CreateOrder &co)
+    : book_id_{co.book_id()}, order_{parse_order(co.order())} {}
+
+create_book::create_book(const matcher_proto::CreateBook &cb)
+    : id_{cb.book().id()} {}
+
+auto parse_action(const envelope_proto::Envelope &env)
     -> std::expected<request::request_t, parse_error> {
+  const auto &action = env.matcher();
   switch (action.action_case()) {
   case matcher_proto::Action::kCreateBook:
     return request::create_book{action.create_book()};
@@ -27,15 +50,6 @@ auto handle_message(const matcher_proto::Action &action)
   }
 }
 
-} // namespace
-
-void queuer::operator()(const matcher_proto::Envelope &envelope) {
-  // TODO: handle unexpected
-  auto parsed_action = handle_message(envelope.action()).value();
-
-  // send to ring buffer
-  prod_.produce_one(parsed_action);
-  prod_.commit();
-}
+} // namespace request
 
 } // namespace matcher

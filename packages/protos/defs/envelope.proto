@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "matcher.proto";
+import "oms.proto";
+
+package envelope_proto;
+
+message Envelope {
+  uint64 seq_num = 1;
+  oneof payload {
+    matcher_proto.Action matcher = 2;
+    oms_proto.Action oms = 3;
+  }
+}
