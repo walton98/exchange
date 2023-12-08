@@ -66,7 +66,7 @@ template <typename F> class consumer {
 
 public:
   consumer(asio::io_context &ioc, asio::ip::port_type port,
-           std::string &multicast_address, F &&f)
+           std::string_view multicast_address, F &&f)
       : ioc_{ioc}, ep_{asio::ip::udp::v4(), port}, socket_{ioc},
         multicast_address_{asio::ip::make_address(multicast_address)}, f_{f},
         shutdown_{false} {}

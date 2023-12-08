@@ -1,61 +1,19 @@
 #include <exception>
-#include <iostream>
-#include <thread>
+#include <string_view>
 
-#include <asio/io_context.hpp>
-#include <ring_buffer/ring_buffer.hpp>
-#include <spdlog/spdlog.h>
-
-#include <server/consumer.hpp>
-#include <server/layers.hpp>
+#include <common/init.hpp>
 
 #include "book_registry.hpp"
 #include "engine.hpp"
 #include "request.hpp"
 
-auto create_consumer(asio::io_context &ioc, auto &prod) {
-  constexpr int multicast_port{30001};
-  std::string multicast_host{"224.1.1.1"};
-
-  // Create handler layers
-  auto queuer = matcher::queuer{prod};
-  // TODO: pass in next seqnum from restore
-  auto sequencer = server::sequencer<decltype(queuer)>{std::move(queuer)};
-  auto decoder = server::decoder{std::move(sequencer)};
-
-  return server::consumer{ioc, multicast_port, multicast_host,
-                          std::move(decoder)};
-}
-
 void run() {
-  spdlog::set_level(spdlog::level::debug);
-
-  matcher::engine engine{"state.xml"};
-  engine.restore();
-
-  asio::io_context ioc;
-  auto work = asio::make_work_guard(ioc.get_executor());
-  auto asio_thread = std::thread([&]() { ioc.run(); });
-
-  matcher::RingBuf buf;
-  ring_buffer::cursor_pair cursors{};
-  ring_buffer::producer prod{buf, cursors.prod_cursor};
-
-  auto cons = create_consumer(ioc, prod);
-  cons.start();
-
-  auto handler_thread = std::thread([&]() {
-    for (const auto batch :
-         ring_buffer::batch_iterate(buf, cursors.cons_cursor, 32)) {
-      for (const auto &action : batch) {
-        auto result = std::visit(engine, action);
-      }
-    }
-  });
-
-  work.reset();
-  asio_thread.join();
-  handler_thread.join();
+  matcher::engine eng{"matcher-state.xml"};
+  constexpr int port{30001};
+  constexpr std::string_view host{"224.1.1.1"};
+  init::config cfg{init::consumer_config{port, host}};
+  init::init<matcher::RingBuf>(std::move(eng), cfg,
+                               &matcher::request::parse_action);
 }
 
 int main() {

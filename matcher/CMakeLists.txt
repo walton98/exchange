@@ -12,6 +12,7 @@ target_link_libraries(
   Boost::serialization
   spdlog::spdlog
   Threads::Threads
+  exchange::common
   exchange::protos
   exchange::ring_buffer
   exchange::server)

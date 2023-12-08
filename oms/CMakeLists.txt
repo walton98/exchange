@@ -1,5 +1,6 @@
 add_library(
   oms_lib
+  src/engine.cpp
   src/request.cpp)
 target_include_directories(oms_lib PUBLIC include)
 target_link_libraries(
@@ -8,6 +9,7 @@ target_link_libraries(
   Boost::serialization
   spdlog::spdlog
   Threads::Threads
+  exchange::common
   exchange::protos
   exchange::ring_buffer
   exchange::server)

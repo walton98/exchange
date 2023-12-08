@@ -33,10 +33,3 @@ message Action {
     Snapshot snapshot = 3;
   }
 }
-
-message Envelope {
-  uint64 seq_num = 1;
-  oneof payload {
-    Action action = 2;
-  }
-}

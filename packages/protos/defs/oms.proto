@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package oms_proto;
+
+message Account {
+  uint64 id = 1;
+}
+
+message CreateAccount {
+  Account account = 1;
+}
+
+message Snapshot {}
+
+message Action {
+  oneof action {
+    CreateAccount create_account = 1;
+    Snapshot snapshot = 2;
+  }
+}
