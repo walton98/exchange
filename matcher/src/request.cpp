@@ -1,5 +1,4 @@
 #include <expected>
-#include <variant>
 
 #include "request.hpp"
 #include "types.hpp"
@@ -10,7 +9,7 @@ namespace request {
 
 namespace {
 
-types::side parse_side(const types_proto::Side side) {
+constexpr types::side parse_side(const types_proto::Side side) {
   switch (side) {
   case types_proto::SIDE_BUY:
     return types::side::buy;
@@ -21,18 +20,18 @@ types::side parse_side(const types_proto::Side side) {
   }
 }
 
-types::order parse_order(const matcher_proto::Order &order) {
+constexpr types::order parse_order(const matcher_proto::Order &order) {
   return types::order{order.id(), order.price(), order.quantity(),
                       parse_side(order.side())};
 }
 
 } // namespace
 
-create_order::create_order(const matcher_proto::CreateOrder &co)
-    : book_id_{co.book_id()}, order_{parse_order(co.order())} {}
-
-create_book::create_book(const matcher_proto::CreateBook &cb)
+constexpr create_book::create_book(const matcher_proto::CreateBook &cb)
     : id_{cb.book().id()} {}
+
+constexpr create_order::create_order(const matcher_proto::CreateOrder &co)
+    : book_id_{co.book_id()}, order_{parse_order(co.order())} {}
 
 auto parse_action(const envelope_proto::Envelope &env)
     -> std::expected<request::request_t, parse_error> {
@@ -45,7 +44,7 @@ auto parse_action(const envelope_proto::Envelope &env)
   case matcher_proto::Action::kSnapshot:
     return request::snapshot{};
   default:
-    std::cout << "not set" << std::endl;
+    spdlog::error("Invalid action: {}", env.DebugString());
     return std::unexpected{parse_error::unknown};
   }
 }

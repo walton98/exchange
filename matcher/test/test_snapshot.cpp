@@ -1,5 +1,5 @@
+#include <print>
 #include <ranges>
-#include <string>
 
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators_adapters.hpp>
@@ -27,7 +27,8 @@ auto insert_orders(matcher::book::book &book, std::span<types::order> orders) {
 
 auto create_books(matcher::book_registry &registry, int num_books) {
   std::vector<matcher::book::book *> v{};
-  std::cout << v.capacity() << std::endl;
+  v.reserve(num_books);
+
   std::ranges::generate_n(std::back_inserter(v), num_books, [&, id{0}] mutable {
     registry.create_book(id);
     return &registry.get_book(id++);

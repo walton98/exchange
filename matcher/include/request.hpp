@@ -2,7 +2,6 @@
 #define MATCHER_HANDLER_HPP
 
 #include <expected>
-#include <optional>
 #include <variant>
 
 #include <envelope.pb.h>
@@ -19,18 +18,17 @@ namespace request {
 
 class create_book {
 public:
-  create_book(const matcher_proto::CreateBook &);
+  explicit constexpr create_book(const matcher_proto::CreateBook &);
 
   [[nodiscard]] constexpr types::book_id id() const noexcept { return id_; }
 
 private:
   types::book_id id_;
-  std::string s_;
 };
 
 class create_order {
 public:
-  create_order(const matcher_proto::CreateOrder &);
+  explicit constexpr create_order(const matcher_proto::CreateOrder &);
 
   [[nodiscard]] constexpr types::book_id book_id() const noexcept {
     return book_id_;

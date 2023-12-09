@@ -1,9 +1,9 @@
 #include <exception>
+#include <print>
 #include <string_view>
 
 #include <common/init.hpp>
 
-#include "book_registry.hpp"
 #include "engine.hpp"
 #include "request.hpp"
 
@@ -20,6 +20,6 @@ int main() {
   try {
     run();
   } catch (std::exception eptr) {
-    std::cout << eptr.what() << std::endl;
+    std::println("Aborted: {}", eptr.what());
   }
 }
