@@ -1,6 +1,5 @@
 #include <exception>
-#include <iostream>
-#include <thread>
+#include <print>
 
 #include <asio/io_context.hpp>
 #include <ring_buffer/ring_buffer.hpp>
@@ -25,6 +24,6 @@ int main() {
   try {
     run();
   } catch (std::exception eptr) {
-    std::cout << eptr.what() << std::endl;
+    std::println("Aborted: {}", eptr.what());
   }
 }

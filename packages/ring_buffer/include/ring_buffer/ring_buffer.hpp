@@ -8,8 +8,6 @@
 #include <memory>
 #include <thread>
 
-#include <iostream>
-
 namespace ring_buffer {
 
 template <class T, uint16_t Size> class ring_buffer {
@@ -17,32 +15,34 @@ public:
   using value_type = T;
   using size_type = decltype(Size);
 
-  ring_buffer() : buf_{} {}
+  constexpr ring_buffer() {}
 
   constexpr auto size() const noexcept { return Size; }
 
-  value_type &operator[](size_type pos) noexcept { return buf_[pos % size()]; }
+  constexpr value_type &operator[](size_type pos) noexcept {
+    return buf_[pos % size()];
+  }
 
   constexpr const value_type &operator[](size_type pos) const noexcept {
     return buf_[pos % size()];
   }
 
 private:
-  std::array<T, Size> buf_;
+  std::array<T, Size> buf_{};
 };
 
 template <class RingBuf> class ring_buffer_iterator {
 public:
-  ring_buffer_iterator(const RingBuf &buf, int64_t pos)
+  constexpr ring_buffer_iterator(const RingBuf &buf, int64_t pos)
       : buf_{&buf}, current_{pos} {}
 
-  void operator++() { current_++; }
+  constexpr void operator++() { current_++; }
 
-  const typename RingBuf::value_type &operator*() const {
+  constexpr const typename RingBuf::value_type &operator*() const {
     return (*buf_)[current_];
   }
 
-  bool operator==(ring_buffer_iterator &other) {
+  constexpr bool operator==(ring_buffer_iterator &other) {
     return current_ == other.current_;
   }
 
@@ -56,7 +56,7 @@ public:
   using pos_type = int64_t;
   static_assert(std::atomic<pos_type>::is_always_lock_free);
 
-  cursor() : pos_{0} {}
+  constexpr cursor() : pos_{0} {}
 
   void follow(std::shared_ptr<cursor> following) {
     following_ = std::move(following);
@@ -113,7 +113,7 @@ struct cursor_pair {
 template <class RingBuf> class producer {
 public:
   producer(RingBuf &buf, std::shared_ptr<cursor> prod_cursor)
-      : buf_{&buf}, current_{}, end_{0}, cursor_{std::move(prod_cursor)} {}
+      : buf_{&buf}, cursor_{std::move(prod_cursor)} {}
 
   void claim(int64_t n) {
     // Wait until we won't overwrite data that the
@@ -139,18 +139,22 @@ public:
 private:
   RingBuf *buf_;
   // Local copy of cursor which we increment until committing.
-  cursor::pos_type current_;
+  cursor::pos_type current_{};
   // Store the last known follower position so that we
   // don't have to query it as often.
-  cursor::pos_type end_;
+  cursor::pos_type end_{};
   std::shared_ptr<cursor> cursor_;
+};
+
+struct batch_pos {
+  cursor::pos_type start;
+  cursor::pos_type end;
 };
 
 template <class RingBuf> class iterate_batch {
 public:
-  iterate_batch(const RingBuf &buf, cursor::pos_type start_pos,
-                cursor::pos_type end_pos)
-      : buf_{&buf}, start_pos_{start_pos}, end_pos_{end_pos} {}
+  iterate_batch(const RingBuf &buf, const batch_pos &pos)
+      : buf_{&buf}, start_pos_{pos.start}, end_pos_{pos.end} {}
 
   ring_buffer_iterator<RingBuf> begin() const noexcept {
     return {*buf_, start_pos_};
@@ -176,17 +180,15 @@ public:
   batch_iterator(const RingBuf &buf, std::shared_ptr<cursor> cons_curs,
                  typename RingBuf::size_type max_batch_size)
       : buf_{&buf}, curs_{std::move(cons_curs)},
-        max_batch_size_{max_batch_size}, batch_start_{0}, batch_end_{0} {
+        max_batch_size_{max_batch_size} {
     wait_for_batch();
   }
 
-  iterate_batch<RingBuf> operator*() const {
-    return {*buf_, batch_start_, batch_end_};
-  }
+  iterate_batch<RingBuf> operator*() const { return {*buf_, batch_pos_}; }
 
   void operator++() {
     commit_batch();
-    batch_start_ = batch_end_;
+    batch_pos_.start = batch_pos_.end;
     wait_for_batch();
   }
 
@@ -196,17 +198,16 @@ private:
   const RingBuf *buf_;
   std::shared_ptr<cursor> curs_;
   typename RingBuf::size_type max_batch_size_;
-  cursor::pos_type batch_start_;
-  cursor::pos_type batch_end_;
+  batch_pos batch_pos_{};
 
   void wait_for_batch() {
-    auto max_end = curs_->following()->wait_for_pos(batch_start_);
-    auto batch_size = std::min(max_end - batch_start_,
+    auto max_end = curs_->following()->wait_for_pos(batch_pos_.start);
+    auto batch_size = std::min(max_end - batch_pos_.start,
                                static_cast<cursor::pos_type>(max_batch_size_));
-    batch_end_ = batch_start_ + batch_size;
+    batch_pos_.end = batch_pos_.start + batch_size;
   }
 
-  void commit_batch() { curs_->move_to(batch_end_); }
+  void commit_batch() { curs_->move_to(batch_pos_.end); }
 };
 
 template <class RingBuf> class batch_iterate {

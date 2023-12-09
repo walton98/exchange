@@ -24,7 +24,7 @@ struct order {
   types::quantity quantity;
   types::side side;
 
-  bool operator==(order const &other) const noexcept = default;
+  constexpr bool operator==(order const &other) const noexcept = default;
 };
 
 } // namespace types
