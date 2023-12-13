@@ -6,10 +6,10 @@
 
 #include <book_registry.hpp>
 #include <engine.hpp>
-#include <snapshot.hpp>
-#include <types.hpp>
 
 #include "generators.hpp"
+
+import matcher.types;
 
 auto save_and_restore(matcher::book_registry &registry,
                       std::string_view filename) {

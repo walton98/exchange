@@ -1,11 +1,10 @@
 #include <expected>
 
 #include "request.hpp"
-#include "types.hpp"
 
-namespace matcher {
+import matcher.types;
 
-namespace request {
+namespace matcher::request {
 
 namespace {
 
@@ -49,6 +48,4 @@ auto parse_action(const envelope_proto::Envelope &env)
   }
 }
 
-} // namespace request
-
-} // namespace matcher
+} // namespace matcher::request

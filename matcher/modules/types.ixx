@@ -1,12 +1,13 @@
-#ifndef MATCHER_TYPES_HPP
-#define MATCHER_TYPES_HPP
+module;
 
 #include <cstdint>
 
 #include <boost/serialization/nvp.hpp>
 
+export module matcher.types;
+
 // TODO: move into separate shared library
-namespace types {
+export namespace types {
 
 using price = uint64_t;
 using quantity = uint64_t;
@@ -29,7 +30,7 @@ struct order {
 
 } // namespace types
 
-namespace boost::serialization {
+export namespace boost::serialization {
 
 template <class Archive>
 inline void serialize(Archive &ar, types::order &order,
@@ -41,5 +42,3 @@ inline void serialize(Archive &ar, types::order &order,
 }
 
 } // namespace boost::serialization
-
-#endif // MATCHER_TYPES_HPP

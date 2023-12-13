@@ -7,6 +7,8 @@
 #include "engine.hpp"
 #include "request.hpp"
 
+import matcher.config;
+
 void run() {
   matcher::engine eng{"matcher-state.xml"};
   constexpr int port{30001};
@@ -14,6 +16,7 @@ void run() {
   init::config cfg{init::consumer_config{port, host}};
   init::init<matcher::RingBuf>(std::move(eng), cfg,
                                &matcher::request::parse_action);
+  config app_cfg{3};
 }
 
 int main() {

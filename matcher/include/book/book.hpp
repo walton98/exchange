@@ -9,7 +9,8 @@
 #include <boost/serialization/nvp.hpp>
 
 #include "order_list.hpp"
-#include "types.hpp"
+
+import matcher.types;
 
 namespace matcher {
 

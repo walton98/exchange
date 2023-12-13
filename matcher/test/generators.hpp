@@ -5,7 +5,7 @@
 
 #include <catch2/generators/catch_generators.hpp>
 
-#include <types.hpp>
+import matcher.types;
 
 namespace generators {
 

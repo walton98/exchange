@@ -12,6 +12,8 @@
 #include "book_registry.hpp"
 #include "request.hpp"
 
+import matcher.types;
+
 namespace matcher {
 
 void save_engine_registry(const book_registry &registry,

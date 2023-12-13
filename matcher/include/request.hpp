@@ -10,7 +10,7 @@
 #include <spdlog/spdlog.h>
 #include <types.pb.h>
 
-#include "types.hpp"
+import matcher.types;
 
 namespace matcher {
 

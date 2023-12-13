@@ -5,7 +5,7 @@
 
 #include <boost/serialization/forward_list.hpp>
 
-#include "types.hpp"
+import matcher.types;
 
 namespace matcher {
 
