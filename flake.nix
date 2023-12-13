@@ -60,6 +60,7 @@
 
             # Build tools
             cmake
+            ninja
             # TODO: fix lldb build
             # lldb
 

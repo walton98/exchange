@@ -5,6 +5,12 @@ add_library(
   src/book_registry.cpp
   src/engine.cpp
   src/request.cpp)
+target_sources(matcher_lib
+  PUBLIC
+    FILE_SET cxx_modules TYPE CXX_MODULES FILES
+    modules/config.ixx
+    modules/types.ixx
+)
 target_include_directories(matcher_lib PUBLIC include)
 target_link_libraries(
   matcher_lib

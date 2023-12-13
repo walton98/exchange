@@ -23,7 +23,7 @@ jobs:
       run: nix develop --command ./tools/check-format.sh
 
     - name: Configure CMake
-      run: nix develop --command cmake -B build
+      run: nix develop --command cmake -B build -GNinja
 
     - name: Build
       run: nix develop --command cmake --build build

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.27)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -6,6 +6,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_COMPILER clang)
 set(CMAKE_CXX_COMPILER clang++)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API aa1f7df0-828a-4fcd-9afc-2dc80491aca7)
+set(CMAKE_EXPERIMENTAL_CXX_MODULE_DYNDEP 1)
 
 # ASIO currently doesn't detect coroutine support
 # since it only checks for the existence of the
