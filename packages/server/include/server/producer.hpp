@@ -6,15 +6,14 @@
 #include <asio/redirect_error.hpp>
 #include <asio/use_awaitable.hpp>
 
-using asio::ip::udp;
+namespace network {
 
-// TODO: rename package to network_utils
-// TODO: does anything else need to be done for multicast?
 class producer {
 public:
   producer(asio::io_context &ioc, std::string_view host, std::string_view port)
-      : socket_{ioc, udp::endpoint{udp::v4(), 0}},
-        endpoint_{*udp::resolver(ioc).resolve(udp::v4(), host, port)} {}
+      : socket_{ioc, asio::ip::udp::endpoint{asio::ip::udp::v4(), 0}},
+        endpoint_{*asio::ip::udp::resolver(ioc).resolve(asio::ip::udp::v4(),
+                                                        host, port)} {}
 
   asio::awaitable<void> produce(std::vector<char> data) {
     asio::error_code ec;
@@ -30,3 +29,5 @@ private:
   asio::ip::udp::socket socket_;
   asio::ip::udp::endpoint endpoint_;
 };
+
+} // namespace network
