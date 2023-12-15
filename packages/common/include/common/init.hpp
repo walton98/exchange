@@ -53,7 +53,7 @@ void init(Engine &&engine, const config &cfg, F &&request_parser) {
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
 
-  producer p{ioc, "224.1.1.1", "30007"};
+  network::producer p{ioc, "224.1.1.1", "30007"};
   // Temporarily send test data on startup
   std::vector<char> data = {'p', 'o', 'o', 'p'};
   asio::co_spawn(ioc, p.produce(data), [](std::exception_ptr eptr) {
