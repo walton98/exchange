@@ -1,14 +1,17 @@
 #ifndef COMMON_INIT_HPP
 #define COMMON_INIT_HPP
 
+#include <iostream>
 #include <string_view>
 #include <thread>
 #include <variant>
 
+#include <asio/co_spawn.hpp>
 #include <asio/io_context.hpp>
 #include <ring_buffer/ring_buffer.hpp>
 #include <server/consumer.hpp>
 #include <server/layers.hpp>
+#include <server/producer.hpp>
 #include <spdlog/spdlog.h>
 
 namespace init {
@@ -49,6 +52,20 @@ void init(Engine &&engine, const config &cfg, F &&request_parser) {
   asio::io_context ioc;
   auto work = asio::make_work_guard(ioc.get_executor());
   auto asio_thread = std::thread([&]() { ioc.run(); });
+
+  producer p{ioc, "224.1.1.1", "30007"};
+  // Temporarily send test data on startup
+  std::vector<char> data = {'p', 'o', 'o', 'p'};
+  asio::co_spawn(ioc, p.produce(data), [](std::exception_ptr eptr) {
+    if (eptr) {
+      try {
+        std::rethrow_exception(eptr);
+      } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+        ;
+      }
+    }
+  });
 
   RingBuf buf;
   ring_buffer::cursor_pair cursors{};
