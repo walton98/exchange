@@ -3,17 +3,18 @@
 
 #include <exception>
 #include <iostream>
+#include <print>
 #include <string>
 
+#include <asio/as_tuple.hpp>
 #include <asio/awaitable.hpp>
 #include <asio/buffer.hpp>
 #include <asio/co_spawn.hpp>
+#include <asio/deferred.hpp>
 #include <asio/error_code.hpp>
 #include <asio/io_context.hpp>
 #include <asio/ip/multicast.hpp>
 #include <asio/ip/udp.hpp>
-#include <asio/redirect_error.hpp>
-#include <asio/use_awaitable.hpp>
 
 namespace network {
 
@@ -38,17 +39,16 @@ template <typename F> class consumer {
     while (!shutdown_) {
       std::array<char, max_size_> data{};
       asio::ip::udp::endpoint remote_endpoint_;
-      asio::error_code ec;
-      auto size = co_await socket_.async_receive_from(
+      auto [ec, size] = co_await socket_.async_receive_from(
           asio::buffer(data, max_size_), remote_endpoint_,
-          asio::redirect_error(asio::use_awaitable, ec));
+          asio::as_tuple(asio::deferred));
       if (ec) {
-        std::cout << "error processing message: " << ec.message() << std::endl;
+        std::println("Error processing message: {}", ec.message());
         continue;
       }
       std::invoke(f_, std::string(data.data(), size));
     }
-    std::cout << "shutting down" << std::endl;
+    std::println("Shutting down");
     socket_.close();
   }
 
@@ -59,7 +59,7 @@ template <typename F> class consumer {
     try {
       std::rethrow_exception(eptr);
     } catch (std::exception &e) {
-      std::cout << e.what() << std::endl;
+      std::println("Error: {}", e.what());
       ;
     }
   }
