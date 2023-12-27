@@ -1,10 +1,7 @@
 #ifndef MATCHER_BOOK_HPP
 #define MATCHER_BOOK_HPP
 
-#include <cstdint>
-#include <type_traits>
 #include <utility>
-#include <vector>
 
 #include <boost/serialization/nvp.hpp>
 
@@ -49,7 +46,7 @@ private:
     case types::side::sell:
       return sell_orders_;
     default:
-      __builtin_unreachable();
+      std::unreachable();
     }
   }
 };

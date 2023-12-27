@@ -27,7 +27,7 @@ constexpr bool order_list::price_is_better(types::price lhs,
   case types::side::sell:
     return lhs < rhs;
   default:
-    __builtin_unreachable();
+    std::unreachable();
   }
 }
 
