@@ -40,10 +40,10 @@ public:
 
   void insert_order(types::order &&order);
 
-  bool operator==(book const &other) const noexcept = default;
+  bool operator==(const book &other) const noexcept = default;
 
   template <typename Archive>
-  void serialize(Archive &ar, unsigned int const /*version*/) {
+  void serialize(Archive &ar, const unsigned int /*version*/) {
     ar &boost::serialization::make_nvp("buy_orders", buy_orders_);
     ar &boost::serialization::make_nvp("sell_orders", sell_orders_);
   }
@@ -62,20 +62,20 @@ namespace boost::serialization {
 template <typename Archive>
 inline void save_construct_data(
     Archive &ar,
-    std::pair<types::book_id const, matcher::book::book> const *source,
-    unsigned int const /*version*/) {
+    const std::pair<const types::book_id, matcher::book::book> *source,
+    const unsigned int /*version*/) {
   auto book_id = source->first;
   ar << BOOST_SERIALIZATION_NVP(book_id);
 }
 
 template <typename Archive>
 inline void load_construct_data(
-    Archive &ar, std::pair<types::book_id const, matcher::book::book> *target,
-    unsigned int const /*version*/) {
+    Archive &ar, std::pair<const types::book_id, matcher::book::book> *target,
+    const unsigned int /*version*/) {
   types::book_id book_id{};
   ar >> BOOST_SERIALIZATION_NVP(book_id);
 
-  new (target) std::pair<types::book_id const, matcher::book::book>{
+  new (target) std::pair<const types::book_id, matcher::book::book>{
       std::piecewise_construct, std::make_tuple(book_id), std::make_tuple()};
 }
 

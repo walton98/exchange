@@ -20,7 +20,7 @@ public:
   }
 
   template <typename Archive>
-  void serialize(Archive &ar, unsigned int const /*version*/) {
+  void serialize(Archive &ar, const unsigned int /*version*/) {
     ar &boost::serialization::make_nvp("books", books_);
   }
 };
