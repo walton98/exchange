@@ -33,8 +33,9 @@ private:
   std::forward_list<types::order> order_list_;
   types::side side_;
 
-  [[nodiscard]] constexpr bool price_is_better(types::price lhs,
-                                               types::price rhs) const noexcept;
+  [[nodiscard]] constexpr auto price_is_better(types::price lhs,
+                                               types::price rhs) const noexcept
+      -> bool;
 
   [[nodiscard]] auto find_location(const types::order &order) const;
 };

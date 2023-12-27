@@ -13,7 +13,7 @@ class book_registry {
   std::unordered_map<types::book_id, book::book> books_;
 
 public:
-  bool create_book(types::book_id book_id);
+  auto create_book(types::book_id book_id) -> bool;
 
   [[nodiscard]] constexpr auto &get_book(types::book_id book_id) {
     return books_.at(book_id);

@@ -22,11 +22,11 @@ public:
 
   void restore() {}
 
-  [[nodiscard]] std::expected<void, engine_error>
-  operator()(const request::snapshot &);
+  [[nodiscard]] auto operator()(const request::snapshot &)
+      -> std::expected<void, engine_error>;
 
-  [[nodiscard]] std::expected<void, engine_error>
-  operator()(const std::monostate &) {
+  [[nodiscard]] auto operator()(const std::monostate &)
+      -> std::expected<void, engine_error> {
     return std::unexpected{engine_error::invalid_request};
   }
 

@@ -31,8 +31,8 @@ engine::~engine() {
   }
 }
 
-std::expected<void, engine_error>
-engine::operator()(const request::create_book &request) {
+auto engine::operator()(const request::create_book &request)
+    -> std::expected<void, engine_error> {
   auto inserted = registry_.create_book(request.id());
   if (inserted) {
     spdlog::info("Created book {}", request.id());
@@ -43,8 +43,8 @@ engine::operator()(const request::create_book &request) {
   }
 }
 
-std::expected<void, engine_error>
-engine::operator()(const request::create_order &request) {
+auto engine::operator()(const request::create_order &request)
+    -> std::expected<void, engine_error> {
   // TODO: check order id doesn't already exist
   //       may need list of order ids in whole registry?
   auto &book = registry_.get_book(request.book_id());
@@ -53,8 +53,8 @@ engine::operator()(const request::create_order &request) {
   return {};
 }
 
-std::expected<void, engine_error>
-engine::operator()(const request::snapshot &request) {
+auto engine::operator()(const request::snapshot &request)
+    -> std::expected<void, engine_error> {
   using namespace std::chrono_literals;
 
   if (snapshot_future_.valid() &&
