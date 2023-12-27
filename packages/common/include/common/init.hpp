@@ -8,10 +8,10 @@
 
 #include <asio/co_spawn.hpp>
 #include <asio/io_context.hpp>
+#include <network/consumer.hpp>
+#include <network/layers.hpp>
+#include <network/producer.hpp>
 #include <ring_buffer/ring_buffer.hpp>
-#include <server/consumer.hpp>
-#include <server/layers.hpp>
-#include <server/producer.hpp>
 #include <spdlog/spdlog.h>
 
 namespace init {
@@ -32,13 +32,13 @@ auto create_consumer(asio::io_context &ioc,
                      ring_buffer::producer<RingBuf> &prod,
                      const consumer_config &cfg, F &&request_parser) {
   // Create handler layers
-  auto queuer = server::queuer{prod, std::forward<F>(request_parser)};
+  auto queuer = network::queuer{prod, std::forward<F>(request_parser)};
   // TODO: pass in next seqnum from restore
-  auto sequencer = server::sequencer<decltype(queuer)>{std::move(queuer)};
-  auto decoder = server::decoder{std::move(sequencer)};
+  auto sequencer = network::sequencer<decltype(queuer)>{std::move(queuer)};
+  auto decoder = network::decoder{std::move(sequencer)};
 
-  return server::consumer{ioc, cfg.mcast_port, cfg.mcast_host,
-                          std::move(decoder)};
+  return network::consumer{ioc, cfg.mcast_port, cfg.mcast_host,
+                           std::move(decoder)};
 }
 
 } // namespace detail

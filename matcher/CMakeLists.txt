@@ -21,7 +21,7 @@ target_link_libraries(
   exchange::common
   exchange::protos
   exchange::ring_buffer
-  exchange::server)
+  exchange::network)
 
 add_executable(matcher src/main.cpp)
 target_link_libraries(matcher PRIVATE matcher_lib)

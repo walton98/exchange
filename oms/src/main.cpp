@@ -6,8 +6,6 @@
 #include <spdlog/spdlog.h>
 
 #include <common/init.hpp>
-#include <server/consumer.hpp>
-#include <server/layers.hpp>
 
 #include <engine.hpp>
 #include <request.hpp>

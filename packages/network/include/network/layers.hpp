@@ -1,5 +1,5 @@
-#ifndef SERVER_LAYERS_HPP
-#define SERVER_LAYERS_HPP
+#ifndef NETWORK_LAYERS_HPP
+#define NETWORK_LAYERS_HPP
 
 #include <cstdint>
 #include <queue>
@@ -10,7 +10,7 @@
 #include <ring_buffer/ring_buffer.hpp>
 #include <spdlog/spdlog.h>
 
-namespace server {
+namespace network {
 
 template <typename RingBuf, typename F> class queuer {
 public:
@@ -100,6 +100,6 @@ private:
   F f_;
 };
 
-} // namespace server
+} // namespace network
 
 #endif

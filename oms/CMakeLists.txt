@@ -12,7 +12,7 @@ target_link_libraries(
   exchange::common
   exchange::protos
   exchange::ring_buffer
-  exchange::server)
+  exchange::network)
 
 add_executable(oms src/main.cpp)
 target_link_libraries(oms PRIVATE oms_lib)
