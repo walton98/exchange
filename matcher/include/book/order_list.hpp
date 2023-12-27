@@ -21,10 +21,10 @@ public:
 
   [[nodiscard]] auto end() const noexcept { return order_list_.end(); }
 
-  bool operator==(order_list const &other) const noexcept = default;
+  bool operator==(const order_list &other) const noexcept = default;
 
   template <typename Archive>
-  void serialize(Archive &ar, unsigned int const /*version*/) {
+  void serialize(Archive &ar, const unsigned int /*version*/) {
     ar &boost::serialization::make_nvp("orders", order_list_);
     ar &boost::serialization::make_nvp("side", side_);
   }
