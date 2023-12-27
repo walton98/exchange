@@ -1,5 +1,5 @@
-#ifndef SERVER_CONSUMER_HPP
-#define SERVER_CONSUMER_HPP
+#ifndef NETWORK_CONSUMER_HPP
+#define NETWORK_CONSUMER_HPP
 
 #include <exception>
 #include <iostream>
@@ -15,7 +15,7 @@
 #include <asio/redirect_error.hpp>
 #include <asio/use_awaitable.hpp>
 
-namespace server {
+namespace network {
 
 template <typename F> class consumer {
   /**
@@ -86,6 +86,6 @@ public:
   }
 };
 
-} // namespace server
+} // namespace network
 
-#endif // SERVER_CONSUMER_HPP
+#endif

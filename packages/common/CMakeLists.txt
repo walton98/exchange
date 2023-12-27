@@ -5,5 +5,5 @@ target_link_libraries(
   INTERFACE
   spdlog::spdlog
   exchange::ring_buffer
-  exchange::server)
+  exchange::network)
 add_library(exchange::common ALIAS common)
