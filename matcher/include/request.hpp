@@ -20,7 +20,7 @@ class create_book {
 public:
   explicit constexpr create_book(const matcher_proto::CreateBook &);
 
-  [[nodiscard]] constexpr types::book_id id() const noexcept { return id_; }
+  [[nodiscard]] constexpr auto id() const noexcept { return id_; }
 
 private:
   types::book_id id_;
@@ -30,13 +30,9 @@ class create_order {
 public:
   explicit constexpr create_order(const matcher_proto::CreateOrder &);
 
-  [[nodiscard]] constexpr types::book_id book_id() const noexcept {
-    return book_id_;
-  };
+  [[nodiscard]] constexpr auto book_id() const noexcept { return book_id_; };
 
-  [[nodiscard]] constexpr types::order order() const noexcept {
-    return order_;
-  };
+  [[nodiscard]] constexpr auto order() const noexcept { return order_; };
 
 private:
   types::book_id book_id_;

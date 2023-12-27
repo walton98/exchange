@@ -16,7 +16,7 @@ auto order_list::find_location(const types::order &order) const {
 
 void order_list::insert_order(types::order &&ord) {
   auto prev = find_location(ord);
-  order_list_.insert_after(prev, ord);
+  order_list_.insert_after(prev, std::move(ord));
 }
 
 constexpr bool order_list::price_is_better(types::price lhs,

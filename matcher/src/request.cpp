@@ -8,7 +8,7 @@ namespace matcher::request {
 
 namespace {
 
-constexpr types::side parse_side(const types_proto::Side side) {
+constexpr auto parse_side(const types_proto::Side side) {
   switch (side) {
   case types_proto::SIDE_BUY:
     return types::side::buy;
@@ -19,7 +19,7 @@ constexpr types::side parse_side(const types_proto::Side side) {
   }
 }
 
-constexpr types::order parse_order(const matcher_proto::Order &order) {
+constexpr auto parse_order(const matcher_proto::Order &order) {
   return types::order{order.id(), order.price(), order.quantity(),
                       parse_side(order.side())};
 }
