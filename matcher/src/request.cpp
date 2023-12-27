@@ -15,7 +15,7 @@ constexpr types::side parse_side(const types_proto::Side side) {
   case types_proto::SIDE_SELL:
     return types::side::sell;
   default:
-    __builtin_unreachable();
+    std::unreachable();
   }
 }
 
