@@ -2,11 +2,9 @@
 #define NETWORK_CONSUMER_HPP
 
 #include <exception>
-#include <iostream>
 #include <print>
 #include <string>
 
-#include <asio/as_tuple.hpp>
 #include <asio/awaitable.hpp>
 #include <asio/buffer.hpp>
 #include <asio/co_spawn.hpp>
@@ -15,6 +13,8 @@
 #include <asio/io_context.hpp>
 #include <asio/ip/multicast.hpp>
 #include <asio/ip/udp.hpp>
+
+#include "as_expected.hpp"
 
 namespace network {
 
@@ -28,7 +28,7 @@ template <typename F> class consumer {
   asio::ip::udp::socket socket_;
   asio::ip::address multicast_address_;
   F f_;
-  bool shutdown_;
+  bool shutdown_ = false;
   static constexpr int max_size_ = 1024;
 
   asio::awaitable<void> accept_coro() {
@@ -39,14 +39,14 @@ template <typename F> class consumer {
     while (!shutdown_) {
       std::array<char, max_size_> data{};
       asio::ip::udp::endpoint remote_endpoint_;
-      auto [ec, size] = co_await socket_.async_receive_from(
+      auto result = co_await socket_.async_receive_from(
           asio::buffer(data, max_size_), remote_endpoint_,
-          asio::as_tuple(asio::deferred));
-      if (ec) {
-        std::println("Error processing message: {}", ec.message());
+          as_expected(asio::deferred));
+      if (!result.has_value()) {
+        std::println("Error processing message: {}", result.error().message());
         continue;
       }
-      std::invoke(f_, std::string(data.data(), size));
+      std::invoke(f_, std::string(data.data(), result.value()));
     }
     std::println("Shutting down");
     socket_.close();
@@ -68,8 +68,8 @@ public:
   consumer(asio::io_context &ioc, asio::ip::port_type port,
            std::string_view multicast_address, F &&f)
       : ioc_{ioc}, ep_{asio::ip::udp::v4(), port}, socket_{ioc},
-        multicast_address_{asio::ip::make_address(multicast_address)}, f_{f},
-        shutdown_{false} {}
+        multicast_address_{asio::ip::make_address(multicast_address)},
+        f_{std::move(f)} {}
 
   void start() {
     asio::co_spawn(
