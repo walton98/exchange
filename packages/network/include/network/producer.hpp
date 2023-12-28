@@ -1,11 +1,12 @@
 #include <print>
 #include <span>
 
-#include <asio/as_tuple.hpp>
 #include <asio/awaitable.hpp>
 #include <asio/deferred.hpp>
 #include <asio/io_context.hpp>
 #include <asio/ip/udp.hpp>
+
+#include "as_expected.hpp"
 
 namespace network {
 
@@ -17,10 +18,10 @@ public:
                                                         host, port)} {}
 
   asio::awaitable<void> produce(std::span<char> data) {
-    auto [ec, _] = co_await socket_.async_send_to(
-        asio::buffer(data), endpoint_, asio::as_tuple(asio::deferred));
-    if (ec) {
-      std::println("Error processing message: {}", ec.message());
+    auto result = co_await socket_.async_send_to(
+        asio::buffer(data), endpoint_, network::as_expected(asio::deferred));
+    if (!result.has_value()) {
+      std::println("Error processing message: {}", result.error().message());
     }
   }
 
