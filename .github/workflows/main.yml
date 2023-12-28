@@ -1,4 +1,4 @@
-name: "Build"
+name: "Exchange CI"
 on:
   push:
     branches: ["main"]

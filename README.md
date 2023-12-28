@@ -5,8 +5,10 @@ Simple exchange:
 - Matching engine
 - (soon to be) OMS
 - UDP multicast communication with boost asio
-- SPSC ring-buffer work queue
+- Lock-free SPSC ring-buffer work queue
 - Nix-based dev environment
+
+[![Exchange CI](https://github.com/walton98/exchange/actions/workflows/main.yml/badge.svg)](https://github.com/walton98/exchange/actions/workflows/main.yml)
 
 ## Development
 
